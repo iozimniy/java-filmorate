@@ -39,6 +39,11 @@ public class FilmValidation {
             throw new ValidationException("Не указан фильм для изменения");
         }
 
+        if (film.getName() != null && film.getName().isBlank()) {
+            log.warn("Название фильма не может быть пустым");
+            throw new ValidationException("Название фильма не может быть пустым");
+        }
+
         if (film.getDescription() != null && film.getDescription().length() > 200) {
             log.warn("Максимальная длина описания фильма 200 символов");
             throw new ValidationException("Максимальная длина описания фильма 200 символов");
