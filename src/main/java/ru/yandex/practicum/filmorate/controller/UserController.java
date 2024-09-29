@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@RequestBody User newUser) {
+    public User create(@Valid @RequestBody User newUser) {
         log.info("Получен запрос на создание нового пользователя: {}", newUser);
 
         UserValidation.validateForCreate(newUser);
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PutMapping
-    public User update(@RequestBody User updatedUser) {
+    public User update(@Valid @RequestBody User updatedUser) {
         log.info("Получен запрос на изменение пользователя {}", updatedUser);
 
         UserValidation.validateForUpdate(updatedUser);
