@@ -2,13 +2,13 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class User {
-    Integer id;
+    Long id;
     String email;
     String login;
     String name;
-    LocalDateTime birthday;
+    LocalDate birthday;
 }

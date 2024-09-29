@@ -1,7 +1,10 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.validations.FilmValidation;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,8 +12,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/films")
+@Slf4j
 public class FilmController {
-    Map<Integer, Film> films = new HashMap<>();
+    Map<Long, Film> films = new HashMap<>();
 
     @GetMapping
     public Collection<Film> getFilms() {
@@ -19,18 +23,58 @@ public class FilmController {
 
     @PostMapping
     public Film create(@RequestBody Film newFilm) {
-        //тут должна быть логика создания фильма c валидацией
+        log.info("Получен запрос на добавление фильма: {}", newFilm);
+
+        FilmValidation.validateForCreate(newFilm);
+
+        newFilm.setId(getNextId());
+        films.put(newFilm.getId(), newFilm);
+
+        log.info("Новый фильм добавлен: {}", newFilm);
         return newFilm;
     }
 
     @PutMapping
     public Film update(@RequestBody Film updatedFilm) {
-        //тут должна быть логика апдейта фильма c валидацией
-        return updatedFilm;
+        log.info("Получен запрос на изменения фильма: {}", updatedFilm);
+
+        FilmValidation.validateForUpdate(updatedFilm);
+
+        if (!(films.containsKey(updatedFilm.getId()))) {
+            log.warn("Не найден фильм с id {}", updatedFilm.getId());
+            throw new NotFoundException("Фильм с id " + updatedFilm.getId() + " не найден");
+        }
+
+        Film oldFilm = films.get(updatedFilm.getId());
+
+        if (updatedFilm.getName() != null) {
+            oldFilm.setName(updatedFilm.getName());
+        }
+
+        if (updatedFilm.getDescription() != null) {
+            oldFilm.setDescription(updatedFilm.getDescription());
+        }
+
+        if (updatedFilm.getReleaseDate() != null) {
+            oldFilm.setReleaseDate(updatedFilm.getReleaseDate());
+        }
+
+        if (updatedFilm.getDuration() != null) {
+            oldFilm.setDuration(updatedFilm.getDuration());
+        }
+
+        log.info("Фильм изменён: {}", oldFilm);
+        return oldFilm;
     }
 
     // вспомогательные методы
 
-    //метод для id
-
+    private Long getNextId() {
+        Long currentMaxId = films.keySet()
+                .stream()
+                .mapToLong(id -> id)
+                .max()
+                .orElse(0);
+        return ++currentMaxId;
+    }
 }
