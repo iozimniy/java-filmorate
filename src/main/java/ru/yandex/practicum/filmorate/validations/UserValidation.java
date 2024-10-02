@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Slf4j
 public class UserValidation {
     public static void validateForCreate(User user) throws ValidationException {
-        if (!(StringUtils.hasText(user.getEmail())) || !(user.getEmail().contains("@"))) {
+        if (!(StringUtils.hasText(user.getEmail()))) {
             log.warn("Некорректный адрес элекронной почты");
             throw new ValidationException("Некорректный адрес элекронной почты");
         }
