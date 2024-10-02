@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.validations;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
@@ -12,7 +13,7 @@ public class FilmValidation {
     private static final LocalDate MIN_RELEASE_DATE = LocalDate.of(1895, 12, 28);
 
     public static void validateForCreate(Film film) {
-        if (film.getName() == null || film.getName().isBlank()) {
+        if (!(StringUtils.hasText(film.getName()))) {
             log.warn("Название фильма не может быть пустым");
             throw new ValidationException("Название фильма не может быть пустым");
         }

@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.validations;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
@@ -9,12 +10,12 @@ import java.time.LocalDate;
 @Slf4j
 public class UserValidation {
     public static void validateForCreate(User user) throws ValidationException {
-        if (user.getEmail().isBlank() || !(user.getEmail().contains("@"))) {
+        if (!(StringUtils.hasText(user.getEmail())) || !(user.getEmail().contains("@"))) {
             log.warn("Некорректный адрес элекронной почты");
             throw new ValidationException("Некорректный адрес элекронной почты");
         }
 
-        if (user.getLogin().isBlank() || user.getLogin().contains(" ")) {
+        if (!(StringUtils.hasText(user.getEmail())) || user.getLogin().contains(" ")) {
             log.warn("Логин не должен быть пустым и не должен содержат пробелы");
             throw new ValidationException("Логин не должен быть пустым и не должен содержат пробелы");
         }
