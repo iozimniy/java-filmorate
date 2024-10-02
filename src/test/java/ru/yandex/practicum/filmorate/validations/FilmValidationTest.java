@@ -84,13 +84,13 @@ public class FilmValidationTest {
                 LocalDate.of(1985, 7, 3), 116);
         assertThrows(NotFoundException.class, () -> filmController.update(film));
     }
-
-    @Test
-    public void updateFilmNameIsBlankValidationException() {
-        Film film = new Film(1L, "  ", "Самый крутой фильм",
-                LocalDate.of(1985, 7, 3), 116);
-        assertThrows(ValidationException.class, () -> FilmValidation.validateForUpdate(film));
-    }
+//    Валидация реализована через аннотацию @NotBlank
+//    @Test
+//    public void updateFilmNameIsBlankValidationException() {
+//        Film film = new Film(1L, "  ", "Самый крутой фильм",
+//                LocalDate.of(1985, 7, 3), 116);
+//        assertThrows(ValidationException.class, () -> FilmValidation.validateForUpdate(film));
+//    }
 
     @Test
     public void updateFilmDescription201ValidationException() {

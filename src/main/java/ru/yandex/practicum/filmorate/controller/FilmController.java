@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
@@ -22,7 +23,7 @@ public class FilmController {
     }
 
     @PostMapping
-    public Film create(@RequestBody Film newFilm) {
+    public Film create(@Valid @RequestBody Film newFilm) {
         log.info("Получен запрос на добавление фильма: {}", newFilm);
 
         FilmValidation.validateForCreate(newFilm);
@@ -35,7 +36,7 @@ public class FilmController {
     }
 
     @PutMapping
-    public Film update(@RequestBody Film updatedFilm) {
+    public Film update(@Valid @RequestBody Film updatedFilm) {
         log.info("Получен запрос на изменения фильма: {}", updatedFilm);
 
         FilmValidation.validateForUpdate(updatedFilm);

@@ -15,7 +15,7 @@ public class UserValidation {
             throw new ValidationException("Некорректный адрес элекронной почты");
         }
 
-        if (!(StringUtils.hasText(user.getEmail())) || user.getLogin().contains(" ")) {
+        if (!(StringUtils.hasText(user.getLogin())) || user.getLogin().contains(" ")) {
             log.warn("Логин не должен быть пустым и не должен содержат пробелы");
             throw new ValidationException("Логин не должен быть пустым и не должен содержат пробелы");
         }
