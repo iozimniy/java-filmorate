@@ -15,13 +15,14 @@ public class UserValidationTest {
     User testUser;
     UserController userController = new UserController();
 
-    @Test
-    public void createUserEmailWithoutDogValidationException() {
-        User user = new User(1L, "email", "ShockDog", "Ivan",
-                LocalDate.of(1990, 10, 26));
-
-        assertThrows(ValidationException.class, () -> UserValidation.validateForCreate(user));
-    }
+    //Валидация реализована через аннотацию @Email
+//    @Test
+//    public void createUserEmailWithoutDogValidationException() {
+//        User user = new User(1L, "email", "ShockDog", "Ivan",
+//                LocalDate.of(1990, 10, 26));
+//
+//        assertThrows(ValidationException.class, () -> UserValidation.validateForCreate(user));
+//    }
 
     @Test
     public void createUserEmailIsBlankValidationException() {
