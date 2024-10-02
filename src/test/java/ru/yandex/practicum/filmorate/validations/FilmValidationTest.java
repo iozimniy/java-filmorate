@@ -129,7 +129,7 @@ public class FilmValidationTest {
 
 
     //вспомогательные методы
-    public void createFilm() {
+    private void createFilm() {
         testFilm = new Film(1L, "Назад в будущее", "Самый крутой фильм",
                 LocalDate.of(1985, 7, 3), 116);
         filmController.create(testFilm);
