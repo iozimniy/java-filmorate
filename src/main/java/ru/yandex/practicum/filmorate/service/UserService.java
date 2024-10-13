@@ -22,6 +22,11 @@ public class UserService {
         return userStorage.getUsers();
     }
 
+    public User getUser(Long userId) {
+        validateUser(userId);
+        return userStorage.getUserById(userId);
+    }
+
     public User create(User user) {
         UserValidation.validateForCreate(user);
 
