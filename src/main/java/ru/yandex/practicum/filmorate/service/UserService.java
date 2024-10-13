@@ -124,7 +124,7 @@ public class UserService {
     }
 
     //вспомогательные методы
-    private void validateUserId(Long userId) {
+    public void validateUserId(Long userId) {
         if (!userStorage.isContains(userId)) {
             log.warn("Не найден пользователь с id {}", userId);
             throw new NotFoundException("Не найден пользователь с id" + userId);

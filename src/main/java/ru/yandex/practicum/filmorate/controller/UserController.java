@@ -53,14 +53,14 @@ public class UserController {
 
     @PutMapping("/{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addFriend(@PathVariable Long userId, Long friendId) {
+    public void addFriend(@PathVariable Long userId, @PathVariable Long friendId) {
         log.info("Получен запрос на добавление пользователя с id {} в друзья пользователя с id {}", friendId, userId);
         userService.addFriend(userId, friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteFriend(@PathVariable Long userId, Long friendId) {
+    public void deleteFriend(@PathVariable Long userId, @PathVariable Long friendId) {
         log.info("Получен запрос на удаление друга с id {} у пользователя с id {}", friendId, userId);
         userService.addFriend(userId, friendId);
     }
@@ -72,7 +72,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public ResponseEntity<Collection<User>> getCommonFriends(@PathVariable Long userId, Long otherUserId) {
+    public ResponseEntity<Collection<User>> getCommonFriends(@PathVariable Long userId, @PathVariable Long otherUserId) {
         log.info("Получен запрос на возврат информации по общим друзьям пользователей c id {} и {}", userId, otherUserId);
         return ResponseEntity.status(HttpStatus.OK).body(userService.getCommonFriends(userId, otherUserId));
     }
