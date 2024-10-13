@@ -15,7 +15,7 @@ import java.util.Map;
 public class InMemoryFilmStorage implements FilmStorage {
     private Map<Long, Film> films = new HashMap<>();
 
-    public Collection<Film> getAll() {
+    public Collection<Film> getFilms() {
         return films.values();
     }
 

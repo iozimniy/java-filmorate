@@ -5,6 +5,7 @@ import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 
 import java.time.LocalDate;
 
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class UserValidationTest {
 
     User testUser;
-    UserController userController = new UserController();
+    UserController userController = new UserController(new InMemoryUserStorage());
 
     //Валидация реализована через аннотацию @Email
 //    @Test

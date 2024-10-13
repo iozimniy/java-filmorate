@@ -5,6 +5,7 @@ import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 
 import java.time.LocalDate;
 
@@ -13,13 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FilmValidationTest {
     Film testFilm;
-    FilmController filmController = new FilmController();
+    FilmController filmController = new FilmController(new InMemoryFilmStorage());
     String incorrect201Description = "testdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscription" +
             "testdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscription" +
             "testdiscriptiontestdi";
     String correct200Description = "testdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscription" +
             "testdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscription" +
             "testdiscriptiontestd";
+    
 
     @Test
     public void createFilmNameIsNullValidationException() {
