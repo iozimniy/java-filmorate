@@ -2,6 +2,8 @@ package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
@@ -35,6 +37,12 @@ public class FilmController {
     public Film update(@Valid @RequestBody Film updatedFilm) {
         log.info("Получен запрос на изменения фильма: {}", updatedFilm);
         return filmService.update(updatedFilm);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Film> getFilm(@PathVariable Long filmId) {
+        log.info("Получен запрос на возврат информации по фильму с id {}", filmId);
+        return ResponseEntity.status(HttpStatus.OK).body(filmService.getFilm(filmId));
     }
 
 }

@@ -23,7 +23,7 @@ public class UserService {
     }
 
     public User getUser(Long userId) {
-        validateUser(userId);
+        validateUserId(userId);
         return userStorage.getUserById(userId);
     }
 
@@ -66,8 +66,8 @@ public class UserService {
 
     public void addFriend(Long userId, Long friendId) {
         //проверяем, что пользователь и его будущий друг существуют
-        validateUser(userId);
-        validateUser(friendId);
+        validateUserId(userId);
+        validateUserId(friendId);
 
         User user = userStorage.getUserById(userId);
 
@@ -89,8 +89,8 @@ public class UserService {
 
     public void deleteFriend(Long userId, Long friendId) {
         //проверяем, что пользователь и его будущий бывший друг существуют
-        validateUser(userId);
-        validateUser(friendId);
+        validateUserId(userId);
+        validateUserId(friendId);
 
         User user = userStorage.getUserById(userId);
 
@@ -106,14 +106,14 @@ public class UserService {
     }
 
     public Collection<User> getFriends(Long userId) {
-        validateUser(userId);
+        validateUserId(userId);
         User user = userStorage.getUserById(userId);
         return user.getFriends().stream().map(id -> userStorage.getUserById(id)).collect(Collectors.toList());
     }
 
     public Collection<User> getCommonFriends(Long userId, Long otherUserId) {
-        validateUser(userId);
-        validateUser(otherUserId);
+        validateUserId(userId);
+        validateUserId(otherUserId);
         User user = userStorage.getUserById(userId);
         User otherUser = userStorage.getUserById(otherUserId);
 
@@ -124,7 +124,7 @@ public class UserService {
     }
 
     //вспомогательные методы
-    private void validateUser(Long userId) {
+    private void validateUserId(Long userId) {
         if (!userStorage.isContains(userId)) {
             log.warn("Не найден пользователь с id {}", userId);
             throw new NotFoundException("Не найден пользователь с id" + userId);

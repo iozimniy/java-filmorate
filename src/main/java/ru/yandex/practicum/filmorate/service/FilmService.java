@@ -22,6 +22,11 @@ public class FilmService {
         return filmStorage.getFilms();
     }
 
+    public Film getFilm(Long filmId) {
+        validateFilmId(filmId);
+        return filmStorage.getFilmById(filmId);
+    }
+
     public Film create(Film film) {
         FilmValidation.validateForCreate(film);
 
@@ -57,5 +62,12 @@ public class FilmService {
 
         log.info("Фильм изменён: {}", film);
         return filmStorage.update(film);
+    }
+
+    private void validateFilmId(Long filmId) {
+        if (!filmStorage.isContains(filmId)) {
+            log.warn("Не найден фильм с id {}", filmId);
+            throw new NotFoundException("Не найден фильм с id" + filmId);
+        }
     }
 }
