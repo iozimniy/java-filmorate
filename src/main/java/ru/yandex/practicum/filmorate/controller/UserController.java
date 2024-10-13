@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import ru.yandex.practicum.filmorate.validations.UserValidation;
 
@@ -16,27 +17,26 @@ import java.util.Map;
 @RequestMapping("/users")
 @Slf4j
 public class UserController {
-    //Map<Long, User> users = new HashMap<>();
-    UserStorage userStorage;
+    UserService userService;
 
-    public UserController(UserStorage userStorage) {
-        this.userStorage = userStorage;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
     public Collection<User> getUsers() {
-        return userStorage.getUsers();
+        return userService.getUsers();
     }
 
     @PostMapping
     public User create(@Valid @RequestBody User newUser) {
         log.info("Получен запрос на создание нового пользователя: {}", newUser);
-        return userStorage.create(newUser);
+        return userService.create(newUser);
     }
 
     @PutMapping
     public User update(@Valid @RequestBody User updatedUser) {
         log.info("Получен запрос на изменение пользователя {}", updatedUser);
-        return userStorage.update(updatedUser);
+        return userService.update(updatedUser);
     }
 }
