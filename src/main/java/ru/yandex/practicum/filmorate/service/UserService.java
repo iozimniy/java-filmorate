@@ -66,13 +66,11 @@ public class UserService {
     }
 
     public void addFriend(Long userId, Long friendId) {
-        //проверяем, что пользователь и его будущий друг существуют
         validateUserId(userId);
         validateUserId(friendId);
 
         User user = userStorage.getUserById(userId);
 
-        //проверяем, что у этого пользователя такого друга ещё нет.
         if (user.getFriends().contains(friendId)) {
             return;
         }
@@ -81,21 +79,14 @@ public class UserService {
         log.info("Пользователь {} добавлен в список друзей пользователя {}", friendId, userId);
 
         addFriend(friendId, userId);
-
-//        Тут решила рекурсией. Мб, сработает.
-//        User friend = userStorage.getUserById(friendId);
-//        friend.getFriends().add(userId);
-//        log.info("Пользователь {} добавлен в список друзей пользователя {}", userId, friendId);
     }
 
     public void deleteFriend(Long userId, Long friendId) {
-        //проверяем, что пользователь и его будущий бывший друг существуют
         validateUserId(userId);
         validateUserId(friendId);
 
         User user = userStorage.getUserById(userId);
 
-        //проверяем, что они есть друг у друга в друзьях
         if (!user.getFriends().contains(friendId)) {
             return;
         }
