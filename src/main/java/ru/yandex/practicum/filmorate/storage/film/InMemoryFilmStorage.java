@@ -20,46 +20,27 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     public Film create(Film film) {
-        FilmValidation.validateForCreate(film);
-
         film.setId(getNextId());
         films.put(film.getId(), film);
 
-        log.info("Новый фильм добавлен: {}", film);
-        return film;
+        return films.get(film.getId());
     }
 
     public Film update(Film film) {
-        FilmValidation.validateForUpdate(film);
-
-        if (!(films.containsKey(film.getId()))) {
-            log.warn("Не найден фильм с id {}", film.getId());
-            throw new NotFoundException("Фильм с id " + film.getId() + " не найден");
-        }
-
-        Film oldFilm = films.get(film.getId());
-
-        if (film.getName() != null) {
-            oldFilm.setName(film.getName());
-        }
-
-        if (film.getDescription() != null) {
-            oldFilm.setDescription(film.getDescription());
-        }
-
-        if (film.getReleaseDate() != null) {
-            oldFilm.setReleaseDate(film.getReleaseDate());
-        }
-
-        if (film.getDuration() != null) {
-            oldFilm.setDuration(film.getDuration());
-        }
-
-        log.info("Фильм изменён: {}", oldFilm);
-        return oldFilm;
+        films.remove(film.getId());
+        films.put(film.getId(), film);
+        return getFilmById(film.getId());
     }
 
     // вспомогательные методы
+
+    public boolean isContains(Long id) {
+        return films.containsKey(id);
+    }
+
+    public Film getFilmById(Long id) {
+        return films.get(id);
+    }
 
     private Long getNextId() {
         Long currentMaxId = films.keySet()

@@ -11,4 +11,8 @@ public interface FilmStorage {
     Film create(Film film);
 
     Film update(Film film);
+
+    boolean isContains(Long id);
+
+    Film getFilmById(Long id);
 }
