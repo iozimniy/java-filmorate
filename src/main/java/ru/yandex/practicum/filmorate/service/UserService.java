@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 import ru.yandex.practicum.filmorate.validations.UserValidation;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -99,9 +100,23 @@ public class UserService {
         deleteFriend(friendId, userId);
     }
 
+    public Collection<User> getFriends(Long userId) {
+        validateUser(userId);
+        User user = userStorage.getUserById(userId);
+        return user.getFriends().stream().map(id -> userStorage.getUserById(id)).collect(Collectors.toList());
+    }
 
+    public Collection<User> getCommonFriends(Long userId, Long otherUserId) {
+        validateUser(userId);
+        validateUser(otherUserId);
+        User user = userStorage.getUserById(userId);
+        User otherUser = userStorage.getUserById(otherUserId);
 
-
+        return otherUser.getFriends().stream()
+                .filter(id -> user.getFriends().contains(id))
+                .map(id -> userStorage.getUserById(id))
+                .collect(Collectors.toList());
+    }
 
     //вспомогательные методы
     private void validateUser(Long userId) {
