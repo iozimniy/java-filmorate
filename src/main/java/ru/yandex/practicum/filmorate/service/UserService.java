@@ -57,4 +57,57 @@ public class UserService {
         log.info("Пользователь изменён: {}", user);
         return userStorage.update(user);
     }
+
+    public void addFriend(Long userId, Long friendId) {
+        //проверяем, что пользователь и его будущий друг существуют
+        validateUser(userId);
+        validateUser(friendId);
+
+        User user = userStorage.getUserById(userId);
+
+        //проверяем, что у этого пользователя такого друга ещё нет.
+        if (user.getFriends().contains(friendId)) {
+            return;
+        }
+
+        user.getFriends().add(friendId);
+        log.info("Пользователь {} добавлен в список друзей пользователя {}", friendId, userId);
+
+        addFriend(friendId, userId);
+
+//        Тут решила рекурсией. Мб, сработает.
+//        User friend = userStorage.getUserById(friendId);
+//        friend.getFriends().add(userId);
+//        log.info("Пользователь {} добавлен в список друзей пользователя {}", userId, friendId);
+    }
+
+    public void deleteFriend(Long userId, Long friendId) {
+        //проверяем, что пользователь и его будущий бывший друг существуют
+        validateUser(userId);
+        validateUser(friendId);
+
+        User user = userStorage.getUserById(userId);
+
+        //проверяем, что они есть друг у друга в друзьях
+        if (!user.getFriends().contains(friendId)) {
+            return;
+        }
+
+        user.getFriends().remove(friendId);
+        log.info("Пользователь {} удалён из друзей пользователя {}", friendId, userId);
+
+        deleteFriend(friendId, userId);
+    }
+
+
+
+
+
+    //вспомогательные методы
+    private void validateUser(Long userId) {
+        if (!userStorage.isContains(userId)) {
+            log.warn("Не найден пользователь с id {}", userId);
+            throw new NotFoundException("Не найден пользователь с id" + userId);
+        }
+    }
 }

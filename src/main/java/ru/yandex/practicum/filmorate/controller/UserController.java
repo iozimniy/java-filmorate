@@ -39,4 +39,6 @@ public class UserController {
         log.info("Получен запрос на изменение пользователя {}", updatedUser);
         return userService.update(updatedUser);
     }
+
+
 }
