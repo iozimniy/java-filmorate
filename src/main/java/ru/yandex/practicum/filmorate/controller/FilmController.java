@@ -40,26 +40,26 @@ public class FilmController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Film> getFilm(@PathVariable Long filmId) {
+    public ResponseEntity<Film> getFilm(@PathVariable("id") Long filmId) {
         log.info("Получен запрос на возврат информации по фильму с id {}", filmId);
         return ResponseEntity.status(HttpStatus.OK).body(filmService.getFilm(filmId));
     }
 
     @PutMapping("/{id}/like/{userId}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void likeFilm(@PathVariable Long filmId, @PathVariable Long userId) {
+    @ResponseStatus(HttpStatus.OK)
+    public void likeFilm(@PathVariable("id") Long filmId, @PathVariable Long userId) {
         log.info("Получен запрос на добавление лайка фильму с id {} от пользователя с id {}", filmId, userId);
         filmService.likeFilm(filmId, userId);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteLike(@PathVariable Long filmId, @PathVariable Long userId) {
+    public void deleteLike(@PathVariable("id") Long filmId, @PathVariable Long userId) {
         log.info("Получен запрос на удаление лайка у фильма с id {} от пользователя с id {}", filmId, userId);
         filmService.deleteLike(filmId, userId);
     }
 
-    @GetMapping("/popular?count={count}")
+    @GetMapping("/popular")
     public ResponseEntity<Collection<Film>> getPopularFilms(@RequestParam(required = false) Integer count) {
         log.info("Получен запрос на самые популярные фильмы в количестве {}", count);
         return ResponseEntity.status(HttpStatus.OK).body(filmService.getPopularFilms(count));
