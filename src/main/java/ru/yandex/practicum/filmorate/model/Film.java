@@ -11,10 +11,10 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class Film {
+    final Set<Long> likes = new HashSet<>();
     Long id;
     @NotBlank String name;
     String description;
     LocalDate releaseDate;
     Integer duration;
-    final Set<Long> likes = new HashSet<>();
 }

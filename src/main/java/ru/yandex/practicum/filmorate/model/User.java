@@ -11,11 +11,11 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class User {
+    final Set<Long> friends = new HashSet<>();
     Long id;
     @Email
     String email;
     String login;
     String name;
     LocalDate birthday;
-    final Set<Long> friends = new HashSet<>();
 }

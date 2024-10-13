@@ -16,8 +16,8 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundException(final NotFoundException e) {
-      log.info("Отправлен ответ на сключения NotFoundException: {}", e.getMessage());
-      return new ErrorResponse("Ошибка запроса", e.getMessage());
+        log.info("Отправлен ответ на сключения NotFoundException: {}", e.getMessage());
+        return new ErrorResponse("Ошибка запроса", e.getMessage());
     }
 
     @ExceptionHandler

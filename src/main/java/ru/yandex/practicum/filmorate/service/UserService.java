@@ -18,6 +18,7 @@ public class UserService {
     public UserService(UserStorage userStorage) {
         this.userStorage = userStorage;
     }
+
     public Collection<User> getUsers() {
         return userStorage.getUsers();
     }
