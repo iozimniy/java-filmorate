@@ -12,7 +12,7 @@ public interface FilmStorage {
 
     Film update(Film film);
 
-    boolean isContains(Long id);
+    boolean contains(Long id);
 
     Film getFilmById(Long id);
 }

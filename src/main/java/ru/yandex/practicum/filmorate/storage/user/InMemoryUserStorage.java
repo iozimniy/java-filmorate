@@ -35,7 +35,7 @@ public class InMemoryUserStorage implements UserStorage {
 
     // вспомогательные методы
 
-    public boolean isContains(Long id) {
+    public boolean contains(Long id) {
         return users.containsKey(id);
     }
 

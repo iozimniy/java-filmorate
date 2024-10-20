@@ -41,7 +41,7 @@ public class FilmService {
     public Film update(Film film) {
         FilmValidation.validateForUpdate(film);
 
-        if (!(filmStorage.isContains(film.getId()))) {
+        if (!(filmStorage.contains(film.getId()))) {
             log.warn("Не найден фильм с id {}", film.getId());
             throw new NotFoundException("Фильм с id " + film.getId() + " не найден");
         }
@@ -99,7 +99,7 @@ public class FilmService {
 
     //вспомогательные методы
     private void validateFilmId(Long filmId) {
-        if (!filmStorage.isContains(filmId)) {
+        if (!filmStorage.contains(filmId)) {
             log.warn("Не найден фильм с id {}", filmId);
             throw new NotFoundException("Не найден фильм с id" + filmId);
         }

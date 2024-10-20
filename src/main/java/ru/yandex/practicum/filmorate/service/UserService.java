@@ -38,7 +38,7 @@ public class UserService {
     public User update(User user) {
         UserValidation.validateForUpdate(user);
 
-        if (!(userStorage.isContains(user.getId()))) {
+        if (!(userStorage.contains(user.getId()))) {
             log.warn("Не найден пользователь с id {}", user.getId());
             throw new NotFoundException("Не найден пользователь с id " + user.getId());
         }
@@ -117,7 +117,7 @@ public class UserService {
 
     //вспомогательные методы
     public void validateUserId(Long userId) {
-        if (!userStorage.isContains(userId)) {
+        if (!userStorage.contains(userId)) {
             log.warn("Не найден пользователь с id {}", userId);
             throw new NotFoundException("Не найден пользователь с id" + userId);
         }

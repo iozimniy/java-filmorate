@@ -14,7 +14,6 @@ import java.util.Collection;
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    //private FilmStorage filmStorage;
     private final FilmService filmService;
 
     public FilmController(FilmService filmService) {

@@ -12,7 +12,7 @@ public interface UserStorage {
 
     User update(User user);
 
-    boolean isContains(Long id);
+    boolean contains(Long id);
 
     User getUserById(Long id);
 }

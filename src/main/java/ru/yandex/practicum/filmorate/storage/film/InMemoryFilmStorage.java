@@ -32,7 +32,7 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     // вспомогательные методы
 
-    public boolean isContains(Long id) {
+    public boolean contains(Long id) {
         return films.containsKey(id);
     }
 
