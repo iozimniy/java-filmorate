@@ -2,80 +2,64 @@ package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.validations.FilmValidation;
+import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/films")
 @Slf4j
 public class FilmController {
-    Map<Long, Film> films = new HashMap<>();
+    private final FilmService filmService;
+
+    public FilmController(FilmService filmService) {
+        this.filmService = filmService;
+    }
 
     @GetMapping
     public Collection<Film> getFilms() {
-        return films.values();
+        return filmService.getFilms();
     }
 
     @PostMapping
     public Film create(@Valid @RequestBody Film newFilm) {
         log.info("Получен запрос на добавление фильма: {}", newFilm);
-
-        FilmValidation.validateForCreate(newFilm);
-
-        newFilm.setId(getNextId());
-        films.put(newFilm.getId(), newFilm);
-
-        log.info("Новый фильм добавлен: {}", newFilm);
-        return newFilm;
+        return filmService.create(newFilm);
     }
 
     @PutMapping
     public Film update(@Valid @RequestBody Film updatedFilm) {
         log.info("Получен запрос на изменения фильма: {}", updatedFilm);
-
-        FilmValidation.validateForUpdate(updatedFilm);
-
-        if (!(films.containsKey(updatedFilm.getId()))) {
-            log.warn("Не найден фильм с id {}", updatedFilm.getId());
-            throw new NotFoundException("Фильм с id " + updatedFilm.getId() + " не найден");
-        }
-
-        Film oldFilm = films.get(updatedFilm.getId());
-
-        if (updatedFilm.getName() != null) {
-            oldFilm.setName(updatedFilm.getName());
-        }
-
-        if (updatedFilm.getDescription() != null) {
-            oldFilm.setDescription(updatedFilm.getDescription());
-        }
-
-        if (updatedFilm.getReleaseDate() != null) {
-            oldFilm.setReleaseDate(updatedFilm.getReleaseDate());
-        }
-
-        if (updatedFilm.getDuration() != null) {
-            oldFilm.setDuration(updatedFilm.getDuration());
-        }
-
-        log.info("Фильм изменён: {}", oldFilm);
-        return oldFilm;
+        return filmService.update(updatedFilm);
     }
 
-    // вспомогательные методы
+    @GetMapping("/{id}")
+    public ResponseEntity<Film> getFilm(@PathVariable("id") Long filmId) {
+        log.info("Получен запрос на возврат информации по фильму с id {}", filmId);
+        return ResponseEntity.status(HttpStatus.OK).body(filmService.getFilm(filmId));
+    }
 
-    private Long getNextId() {
-        Long currentMaxId = films.keySet()
-                .stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++currentMaxId;
+    @PutMapping("/{id}/like/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void likeFilm(@PathVariable("id") Long filmId, @PathVariable Long userId) {
+        log.info("Получен запрос на добавление лайка фильму с id {} от пользователя с id {}", filmId, userId);
+        filmService.likeFilm(filmId, userId);
+    }
+
+    @DeleteMapping("/{id}/like/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteLike(@PathVariable("id") Long filmId, @PathVariable Long userId) {
+        log.info("Получен запрос на удаление лайка у фильма с id {} от пользователя с id {}", filmId, userId);
+        filmService.deleteLike(filmId, userId);
+    }
+
+    @GetMapping("/popular")
+    public ResponseEntity<Collection<Film>> getPopularFilms(@RequestParam(required = false) Integer count) {
+        log.info("Получен запрос на самые популярные фильмы в количестве {}", count);
+        return ResponseEntity.status(HttpStatus.OK).body(filmService.getPopularFilms(count));
     }
 }
