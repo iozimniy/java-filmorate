@@ -24,7 +24,6 @@ public class InMemoryUserStorage implements UserStorage {
         user.setId(getNextId());
         users.put(user.getId(), user);
         log.info("Новый пользователь добавлен в хранилище {}", user);
-        log.info("Создан новый пользователь: {}", user);
         return user;
     }
 
