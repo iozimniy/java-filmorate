@@ -99,20 +99,14 @@ public class UserService {
 
     public Collection<User> getFriends(Long userId) {
         validateUserId(userId);
-        User user = userStorage.getUserById(userId);
-        return user.getFriends().stream().map(id -> userStorage.getUserById(id)).collect(Collectors.toList());
+        return userStorage.getUserFriends(userId);
     }
 
     public Collection<User> getCommonFriends(Long userId, Long otherUserId) {
         validateUserId(userId);
         validateUserId(otherUserId);
-        User user = userStorage.getUserById(userId);
-        User otherUser = userStorage.getUserById(otherUserId);
 
-        return otherUser.getFriends().stream()
-                .filter(id -> user.getFriends().contains(id))
-                .map(id -> userStorage.getUserById(id))
-                .collect(Collectors.toList());
+        return userStorage.getCommonFriends(userId, otherUserId);
     }
 
     //вспомогательные методы
