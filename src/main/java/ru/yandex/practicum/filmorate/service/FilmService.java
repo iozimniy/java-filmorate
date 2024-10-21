@@ -72,16 +72,14 @@ public class FilmService {
         validateFilmId(filmId);
         userService.validateUserId(userId);
 
-        Film film = filmStorage.getFilmById(filmId);
-        film.getLikes().add(userId);
+        filmStorage.addLikes(filmId, userId);
     }
 
     public void deleteLike(Long filmId, Long userId) {
         validateFilmId(filmId);
         userService.validateUserId(userId);
 
-        Film film = filmStorage.getFilmById(filmId);
-        film.getLikes().remove(userId);
+        filmStorage.deleteLike(filmId, userId);
     }
 
     public Collection<Film> getPopularFilms(Integer count) {
@@ -90,11 +88,7 @@ public class FilmService {
         }
 
         Comparator<Film> filmLikesComparator = Comparator.comparingInt(o -> o.getLikes().size());
-
-        return filmStorage.getFilms().stream()
-                .sorted(filmLikesComparator.reversed())
-                .limit(count)
-                .collect(Collectors.toList());
+        return filmStorage.getSortedFilms(count, filmLikesComparator);
     }
 
     //вспомогательные методы
