@@ -5,6 +5,10 @@ import ru.yandex.practicum.filmorate.controller.FilmController;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 
 import java.time.LocalDate;
 
@@ -13,13 +17,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FilmValidationTest {
     Film testFilm;
-    FilmController filmController = new FilmController();
+    FilmController filmController = new FilmController(
+            new FilmService(
+                    new InMemoryFilmStorage(),
+                    new UserService(new InMemoryUserStorage())
+            )
+    );
     String incorrect201Description = "testdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscription" +
             "testdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscription" +
             "testdiscriptiontestdi";
     String correct200Description = "testdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscription" +
             "testdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscriptiontestdiscription" +
             "testdiscriptiontestd";
+
 
     @Test
     public void createFilmNameIsNullValidationException() {
