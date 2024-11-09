@@ -30,8 +30,9 @@ public class UserService {
     public User create(User user) {
         UserValidation.validateForCreate(user);
 
-        log.info("Создан новый пользователь: {}", user);
-        return userStorage.create(user);
+        User newUser = userStorage.create(user);
+        log.info("Создан новый пользователь: {}", newUser);
+        return newUser;
     }
 
     public User update(User user) {
@@ -75,7 +76,7 @@ public class UserService {
         friendshipStorage.addFriend(userId, friendId);
         log.info("Пользователь {} добавлен в список друзей пользователя {}", friendId, userId);
 
-        addFriend(friendId, userId);
+        //addFriend(friendId, userId);
     }
 
     public void deleteFriend(Long userId, Long friendId) {
@@ -89,7 +90,7 @@ public class UserService {
         friendshipStorage.deleteFriend(userId, friendId);
         log.info("Пользователь {} удалён из друзей пользователя {}", friendId, userId);
 
-        deleteFriend(friendId, userId);
+        //deleteFriend(friendId, userId);
     }
 
     public Collection<User> getFriends(Long userId) {
@@ -101,7 +102,7 @@ public class UserService {
         validateUserId(userId);
         validateUserId(otherUserId);
 
-        return userStorage.getCommonFriends(userId, otherUserId);
+        return friendshipStorage.getCommonFriends(userId, otherUserId);
     }
 
     //вспомогательные методы

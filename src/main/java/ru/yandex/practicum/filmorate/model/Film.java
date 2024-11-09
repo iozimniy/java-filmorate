@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +17,7 @@ public class Film {
     Long id;
     @NotBlank String name;
     String description;
-    Long ratingId;
+    Rating mpa;
     LocalDate releaseDate;
     Integer duration;
     Collection<Long> genres = new HashSet<>(){

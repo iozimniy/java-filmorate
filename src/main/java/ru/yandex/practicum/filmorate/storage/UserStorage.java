@@ -16,8 +16,4 @@ public interface UserStorage {
     boolean contains(Long id);
 
     Optional<User> getUserById(Long id);
-
-    Collection<User> getCommonFriends(Long userId, Long otherUserId);
-
-    Collection<User> getUserFriends(Long userId);
 }

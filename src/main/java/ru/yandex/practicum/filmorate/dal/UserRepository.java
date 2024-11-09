@@ -15,7 +15,7 @@ public class UserRepository extends BaseRepository<User> implements UserStorage 
     private final String FIND_ALL_USERS = "SELECT * FROM users";
     private final String FIND_USER_BY_ID = "SELECT * FROM users WHERE user_id = ?";
     private final String CREATE_USER = "INSERT INTO users(email, login, user_name, birthday) " +
-            "VALUES(?, ?, ?, ?) returning user_id";
+            "VALUES(?, ?, ?, ?)";
     private final String UPDATE_USER = "UPDATE users SET email = ?, login = ?, user_name = ?, birthday = ?" +
             "WHERE user_id = ?";
 
@@ -58,21 +58,16 @@ public class UserRepository extends BaseRepository<User> implements UserStorage 
 
     @Override
     public boolean contains(Long id) {
+        Optional<User> user = getUserById(id);
+        if (user.isPresent()) {
+            return true;
+        }
+
         return false;
     }
 
     @Override
     public Optional<User> getUserById(Long id) {
         return findOne(FIND_USER_BY_ID, id);
-    }
-
-    @Override
-    public Collection<User> getCommonFriends(Long userId, Long otherUserId) {
-        return null;
-    }
-
-    @Override
-    public Collection<User> getUserFriends(Long userId) {
-        return null;
     }
 }

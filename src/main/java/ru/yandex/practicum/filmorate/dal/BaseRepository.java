@@ -44,7 +44,7 @@ public class BaseRepository<T> {
 
             return ps;}, keyHolder);
 
-        Long id = keyHolder.getKeyAs(Long.class);
+        Long id = keyHolder.getKeyAs(Integer.class).longValue();
 
         if (id != null) {
             return id;

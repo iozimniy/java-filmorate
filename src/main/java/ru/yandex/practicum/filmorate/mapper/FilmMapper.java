@@ -1,12 +1,17 @@
 package ru.yandex.practicum.filmorate.mapper;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Rating;
+import ru.yandex.practicum.filmorate.storage.RatingStorage;
 
-import java.util.Set;
-
+@Component
+@AllArgsConstructor
 public final class FilmMapper {
-    public static Film mapToFilm(NewFilmRequest request) {
+    RatingStorage ratingStorage;
+    public Film mapToFilm(NewFilmRequest request) {
         Film film = new Film();
 
         film.setName(request.getName());
@@ -15,11 +20,9 @@ public final class FilmMapper {
         film.setDuration(request.getDuration());
 
         //проверяем, есть ли в запросе рейтинг
-        //если нет, то G по умолчанию.
-        if (request.getRatingId() != null) {
-            film.setRatingId(request.getRatingId());
-        } else {
-            film.setRatingId(0L);
+        if (request.getMpa() != null) {
+            Rating rating = ratingStorage.getById(request.getMpa().getId()).get();
+            request.setMpa(rating);
         }
 
         //проверяем, если ли в запросе жанры, и если есть, прикручиваем к фильму

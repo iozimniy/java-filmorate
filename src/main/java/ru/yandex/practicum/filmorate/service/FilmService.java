@@ -7,8 +7,10 @@ import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Rating;
 import ru.yandex.practicum.filmorate.storage.FilmLikesStorage;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.RatingStorage;
 import ru.yandex.practicum.filmorate.validations.FilmValidation;
 
 import java.util.Collection;
@@ -22,6 +24,8 @@ public class FilmService {
     FilmValidation filmValidation;
     FilmGenreService filmGenreService;
     FilmLikesStorage filmLikesStorage;
+    RatingStorage ratingStorage;
+    FilmMapper filmMapper;
 
     public Collection<Film> getFilms() {
         return filmStorage.getFilms();
@@ -34,7 +38,7 @@ public class FilmService {
 
     public Film create(NewFilmRequest request) {
         filmValidation.validateForCreate(request);
-        Film newFilm = FilmMapper.mapToFilm(request);
+        Film newFilm = filmMapper.mapToFilm(request);
 
 
         Film film = filmStorage.create(newFilm);
@@ -73,8 +77,8 @@ public class FilmService {
             film.setDuration(oldFilm.getDuration());
         }
 
-        if (film.getRatingId() == null) {
-            film.setRatingId(oldFilm.getRatingId());
+        if (film.getMpa() == null) {
+            film.setMpa(oldFilm.getMpa());
         }
 
         if (film.getGenres() != null) {

@@ -1,17 +1,19 @@
 package ru.yandex.practicum.filmorate.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import ru.yandex.practicum.filmorate.model.Rating;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
 
 @Data
 public class NewFilmRequest {
-    String name;
+    @NotBlank String name;
     String description;
     LocalDate releaseDate;
     Integer duration;
-    Long ratingId;
+    Rating mpa;
     Collection<Long> genresId;
 }

@@ -16,7 +16,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
     private static final String FIND_FILM_BY_ID = "SELECT * FROM films WHERE film_id = ?";
     private static final String FIND_ALL_FILMS = "SELECT * FROM films";
     private static final String CREATE_FILM = "INSERT INTO films(film_name, description, rating_id, release_date, duration)" +
-            "VALUES(?, ?, ?, ?, ?) returning film_id";
+            "VALUES(?, ?, ?, ?, ?)";
     private static final String UPDATE_FILM = "UPDATE films SET film_name = ?, " +
             "description = ?, rating_id = ?, release_date = ?, duration = ? WHERE film_id = ?";
 
@@ -36,7 +36,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
                 CREATE_FILM,
                 film.getName(),
                 film.getDescription(),
-                film.getRatingId(),
+                film.getMpa(),
                 film.getReleaseDate(),
                 film.getDuration()
                 );
@@ -51,7 +51,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
                 UPDATE_FILM,
                 film.getName(),
                 film.getDescription(),
-                film.getRatingId(),
+                film.getMpa(),
                 film.getReleaseDate(),
                 film.getDuration(),
                 film.getId()

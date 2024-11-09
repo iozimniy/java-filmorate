@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import ru.yandex.practicum.filmorate.dal.RatingRepository;
 import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -12,7 +11,6 @@ import ru.yandex.practicum.filmorate.storage.GenreStorage;
 import ru.yandex.practicum.filmorate.storage.RatingStorage;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Slf4j
 @AllArgsConstructor
@@ -45,9 +43,9 @@ public class FilmValidation {
             throw new ValidationException("Продолжительность фильма должна быть положительным числом");
         }
 
-        if (request.getRatingId() != null && !ratingStorage.isContainsId(request.getRatingId())) {
-            log.warn("Не существует рейтинга с id {}", request.getRatingId());
-            throw new ValidationException("Не существует рейтинга с id " + request.getRatingId());
+        if (request.getMpa() != null && !ratingStorage.isContainsId(request.getMpa().getId())) {
+            log.warn("Не существует рейтинга с id {}", request.getMpa());
+            throw new ValidationException("Не существует рейтинга с id " + request.getMpa());
         }
 
         if (request.getGenresId() != null) {
@@ -82,9 +80,9 @@ public class FilmValidation {
             throw new ValidationException("Продолжительность фильма должна быть положительным числом");
         }
 
-        if (film.getRatingId() != null && !ratingStorage.isContainsId(film.getRatingId())) {
-            log.warn("Не существует рейтинга с id {}", film.getRatingId());
-            throw new ValidationException("Не существует рейтинга с id " + film.getRatingId());
+        if (film.getMpa() != null && !ratingStorage.isContainsId(film.getMpa().getId())) {
+            log.warn("Не существует рейтинга с id {}", film.getMpa());
+            throw new ValidationException("Не существует рейтинга с id " + film.getMpa());
         }
     }
 }
