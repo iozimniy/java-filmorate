@@ -1,22 +1,22 @@
 package ru.yandex.practicum.filmorate.dal;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmGenreStorage;
 
 @Slf4j
+@Repository
+@AllArgsConstructor
 public class FilmGenreRepository implements FilmGenreStorage {
 
     JdbcTemplate jdbc;
     private final String CREATE_FILM_GENRE = "INSERT INTO film_genre(film_id, genre_id) VALUES(?, ?)";
     private final String DELETE_FILM_GENRE = "DELETE FROM film_genre WHERE film_d = ?";
-
-    public FilmGenreRepository(JdbcTemplate jdbc) {
-        this.jdbc = jdbc;
-    }
 
     @Override
     public void create(Long filmId, Long genreId) {
