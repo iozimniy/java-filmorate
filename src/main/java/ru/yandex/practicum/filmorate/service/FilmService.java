@@ -33,11 +33,11 @@ public class FilmService {
 
     public Film create(NewFilmRequest request) {
         filmValidation.validateForCreate(request);
-        Film film = FilmMapper.mapToFilm(request);
+        Film newFilm = FilmMapper.mapToFilm(request);
 
 
-        filmStorage.create(film);
-        log.info("Новый фильм добавлен: {}", film);
+        Film film = filmStorage.create(newFilm);
+        log.info("Новый фильм добавлен: {}", newFilm);
 
         if (film.getGenres() != null) {
             filmGenreService.create(film);
@@ -70,6 +70,14 @@ public class FilmService {
 
         if (film.getDuration() == null) {
             film.setDuration(oldFilm.getDuration());
+        }
+
+        if (film.getRatingId() == null) {
+            film.setRatingId(oldFilm.getRatingId());
+        }
+
+        if (film.getGenres() != null) {
+            filmGenreService.update(film);
         }
 
         log.info("Фильм изменён: {}", film);

@@ -49,8 +49,16 @@ public class BaseRepository<T> {
         if (id != null) {
             return id;
         } else {
-            log.error("Не удалось добавить запись в таблицу по запросу {}", query);
+            log.error("Не удалось добавить запись в таблицу по запросу {} c параметрами {}", query, params);
             throw new InternalServerException("Не удалось сохранить данные.");
+        }
+    }
+
+    protected void update(String query, Object... params) {
+        int rowUpdated = jdbc.update(query, params);
+        if (rowUpdated == 0) {
+            log.error("Не удалось обновить данные по запросу {} c параметрами {}", query, params);
+            throw new InternalServerException("Не удалось обновить данные");
         }
     }
 }
