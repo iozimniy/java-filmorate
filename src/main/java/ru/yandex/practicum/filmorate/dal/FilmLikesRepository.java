@@ -14,7 +14,6 @@ import java.util.Collection;
 @Repository
 @Slf4j
 public class FilmLikesRepository extends BaseRepository<Film> implements FilmLikesStorage {
-    JdbcTemplate jdbc;
     private final String CREATE_FILM_LIKE = "INSERT INTO film_likes(film_id, user_id) VALUES(?, ?)";
     private final String DELETE_FILM_LIKE = "DELETE FROM film_likes WHERE film_id = ? AND user_id = ?";
     private final String FIND_POPULAR_FILMS = "SELECT f.* FROM films as f " +

@@ -6,7 +6,7 @@ import ru.yandex.practicum.filmorate.model.Rating;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RatingMapper implements RowMapper<Rating> {
+public class RatingRowMapper implements RowMapper<Rating> {
     @Override
     public Rating mapRow(ResultSet rs, int rowNum) throws SQLException {
         Rating rating = new Rating();
