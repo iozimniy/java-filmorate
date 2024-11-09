@@ -24,7 +24,7 @@ public class UserService {
 
     public User getUser(Long userId) {
         validateUserId(userId);
-        return userStorage.getUserById(userId);
+        return userStorage.getUserById(userId).get();
     }
 
     public User create(User user) {
@@ -42,7 +42,7 @@ public class UserService {
             throw new NotFoundException("Не найден пользователь с id " + user.getId());
         }
 
-        User oldUser = userStorage.getUserById(user.getId());
+        User oldUser = userStorage.getUserById(user.getId()).get();
 
         if (user.getEmail() == null) {
             user.setEmail(oldUser.getEmail());
@@ -68,7 +68,7 @@ public class UserService {
         validateUserId(userId);
         validateUserId(friendId);
 
-        User user = userStorage.getUserById(userId);
+        User user = userStorage.getUserById(userId).get();
 
         if (user.getFriends().contains(friendId)) {
             return;
@@ -84,7 +84,7 @@ public class UserService {
         validateUserId(userId);
         validateUserId(friendId);
 
-        User user = userStorage.getUserById(userId);
+        User user = userStorage.getUserById(userId).get();
 
         if (!user.getFriends().contains(friendId)) {
             return;

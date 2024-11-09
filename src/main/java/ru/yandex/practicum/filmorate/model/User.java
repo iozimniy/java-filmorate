@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 public class User {
-    final Set<Long> friends = new HashSet<>();
+    //final Set<Long> friends = new HashSet<>();
     Long id;
     @Email
     String email;
