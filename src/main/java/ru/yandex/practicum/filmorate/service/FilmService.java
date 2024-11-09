@@ -27,7 +27,7 @@ public class FilmService {
     }
 
     public Film getFilm(Long filmId) {
-        validateId(filmStorage.getFilmById(filmId), filmId);
+        validateFilmId(filmId);
         return filmStorage.getFilmById(filmId).get();
     }
 
@@ -47,7 +47,7 @@ public class FilmService {
     }
 
     public Film update(Film film) {
-        FilmValidation.validateForUpdate(film);
+        filmValidation.validateForUpdate(film);
 
         if (!(filmStorage.contains(film.getId()))) {
             log.warn("Не найден фильм с id {}", film.getId());
@@ -110,13 +110,6 @@ public class FilmService {
     //вспомогательные методы
     private void validateFilmId(Long filmId) {
         if (!filmStorage.contains(filmId)) {
-            log.warn("Не найден фильм с id {}", filmId);
-            throw new NotFoundException("Не найден фильм с id" + filmId);
-        }
-    }
-
-    private void validateId(Optional<Film> mayBeFilm, Long filmId) {
-        if (mayBeFilm.isEmpty()) {
             log.warn("Не найден фильм с id {}", filmId);
             throw new NotFoundException("Не найден фильм с id" + filmId);
         }

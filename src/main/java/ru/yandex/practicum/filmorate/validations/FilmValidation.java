@@ -59,17 +59,11 @@ public class FilmValidation {
         }
     }
 
-    public static void validateForUpdate(Film film) {
+    public void validateForUpdate(Film film) {
         if (film.getId() == null) {
             log.warn("Не указан фильм для изменения");
             throw new ValidationException("Не указан фильм для изменения");
         }
-
-        //Валидация реализована через аннотацию @NotBlank
-//        if (film.getName() != null && film.getName().isBlank()) {
-//            log.warn("Название фильма не может быть пустым");
-//            throw new ValidationException("Название фильма не может быть пустым");
-//        }
 
         if (film.getDescription() != null && film.getDescription().length() > 200) {
             log.warn("Максимальная длина описания фильма 200 символов");
@@ -84,6 +78,11 @@ public class FilmValidation {
         if ((film.getDuration() != null) && (film.getDuration() <= 0)) {
             log.warn("Продолжительность фильма должна быть положительным числом");
             throw new ValidationException("Продолжительность фильма должна быть положительным числом");
+        }
+
+        if (film.getRatingId() != null && !ratingStorage.isContainsId(film.getRatingId())) {
+            log.warn("Не существует рейтинга с id {}", film.getRatingId());
+            throw new ValidationException("Не существует рейтинга с id " + film.getRatingId());
         }
     }
 }
