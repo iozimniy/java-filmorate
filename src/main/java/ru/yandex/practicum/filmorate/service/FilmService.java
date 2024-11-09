@@ -104,7 +104,6 @@ public class FilmService {
             count = 10;
         }
 
-        //Comparator<Film> filmLikesComparator = Comparator.comparingInt(o -> o.getLikes().size());
         return filmStorage.getSortedFilms(count);
     }
 

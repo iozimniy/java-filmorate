@@ -74,9 +74,4 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
     public Optional<Film> getFilmById(Long id) {
         return findOne(FIND_FILM_BY_ID, id);
     }
-
-    @Override
-    public Collection<Film> getSortedFilms(Integer count) {
-        return null;
-    }
 }
