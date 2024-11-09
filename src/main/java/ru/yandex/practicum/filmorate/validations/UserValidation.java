@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.validations;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -8,6 +9,7 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
 
 @Slf4j
+@Component
 public class UserValidation {
     public static void validateForCreate(User user) throws ValidationException {
         if (!(StringUtils.hasText(user.getEmail()))) {

@@ -2,12 +2,14 @@ package ru.yandex.practicum.filmorate.dal;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import java.util.Collection;
 import java.util.Optional;
 
+@Repository
 public class UserRepository extends BaseRepository<User> implements UserStorage {
 
     private final String FIND_ALL_USERS = "SELECT * FROM users";

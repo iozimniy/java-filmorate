@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.validations;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import ru.yandex.practicum.filmorate.dal.RatingRepository;
 import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Slf4j
 @AllArgsConstructor
+@Component
 public class FilmValidation {
 
     private static final LocalDate MIN_RELEASE_DATE = LocalDate.of(1895, 12, 28);

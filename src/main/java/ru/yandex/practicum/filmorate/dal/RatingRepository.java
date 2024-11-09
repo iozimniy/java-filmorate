@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.dal;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Rating;
 import ru.yandex.practicum.filmorate.storage.RatingStorage;
@@ -9,12 +10,13 @@ import ru.yandex.practicum.filmorate.storage.RatingStorage;
 import java.util.Collection;
 import java.util.Optional;
 
-public class RatingRepository extends BaseRepository implements RatingStorage {
+@Repository
+public class RatingRepository extends BaseRepository<Rating> implements RatingStorage {
 
     private static String FIND_ALL_RATINGS = "SELECT * FROM rating";
     private static String FIND_RATING_BY_ID = "SELECT * FROM rating WHERE rating_id = ?";
 
-    public RatingRepository(JdbcTemplate jdbc, RowMapper mapper) {
+    public RatingRepository(JdbcTemplate jdbc, RowMapper<Rating> mapper) {
         super(jdbc, mapper);
     }
 
