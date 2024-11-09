@@ -62,6 +62,11 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
 
     @Override
     public boolean contains(Long id) {
+        Optional<Film> film = getFilmById(id);
+        if (film.isPresent()) {
+            return true;
+        }
+
         return false;
     }
 
