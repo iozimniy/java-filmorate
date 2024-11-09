@@ -76,16 +76,6 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
     }
 
     @Override
-    public void addLikes(Long filmId, Long userId) {
-
-    }
-
-    @Override
-    public void deleteLike(Long filmId, Long userId) {
-
-    }
-
-    @Override
     public Collection<Film> getSortedFilms(Integer count) {
         return null;
     }

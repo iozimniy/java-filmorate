@@ -7,11 +7,11 @@ import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.FilmLikesStorage;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.validations.FilmValidation;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -21,6 +21,7 @@ public class FilmService {
     UserService userService;
     FilmValidation filmValidation;
     FilmGenreService filmGenreService;
+    FilmLikesStorage filmLikesStorage;
 
     public Collection<Film> getFilms() {
         return filmStorage.getFilms();
@@ -88,14 +89,14 @@ public class FilmService {
         validateFilmId(filmId);
         userService.validateUserId(userId);
 
-        filmStorage.addLikes(filmId, userId);
+        filmLikesStorage.addLikes(filmId, userId);
     }
 
     public void deleteLike(Long filmId, Long userId) {
         validateFilmId(filmId);
         userService.validateUserId(userId);
 
-        filmStorage.deleteLike(filmId, userId);
+        filmLikesStorage.deleteLike(filmId, userId);
     }
 
     public Collection<Film> getPopularFilms(Integer count) {
