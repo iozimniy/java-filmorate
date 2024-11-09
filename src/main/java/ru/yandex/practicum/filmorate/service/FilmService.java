@@ -1,40 +1,49 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
+import ru.yandex.practicum.filmorate.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.validations.FilmValidation;
 
 import java.util.Collection;
-import java.util.Comparator;
+import java.util.Optional;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class FilmService {
     FilmStorage filmStorage;
     UserService userService;
-
-    public FilmService(FilmStorage filmStorage, UserService userService) {
-        this.filmStorage = filmStorage;
-        this.userService = userService;
-    }
+    FilmValidation filmValidation;
+    FilmGenreService filmGenreService;
 
     public Collection<Film> getFilms() {
         return filmStorage.getFilms();
     }
 
     public Film getFilm(Long filmId) {
-        validateFilmId(filmId);
-        return filmStorage.getFilmById(filmId);
+        validateId(filmStorage.getFilmById(filmId), filmId);
+        return filmStorage.getFilmById(filmId).get();
     }
 
-    public Film create(Film film) {
-        FilmValidation.validateForCreate(film);
+    public Film create(NewFilmRequest request) {
+        filmValidation.validateForCreate(request);
+        Film film = FilmMapper.mapToFilm(request);
 
+
+        filmStorage.create(film);
         log.info("Новый фильм добавлен: {}", film);
-        return filmStorage.create(film);
+
+        if (film.getGenres() != null) {
+            filmGenreService.create(film);
+        }
+
+        return film;
     }
 
     public Film update(Film film) {
@@ -45,7 +54,7 @@ public class FilmService {
             throw new NotFoundException("Фильм с id " + film.getId() + " не найден");
         }
 
-        Film oldFilm = filmStorage.getFilmById(film.getId());
+        Film oldFilm = filmStorage.getFilmById(film.getId()).get();
 
         if (film.getName() == null) {
             film.setName(oldFilm.getName());
@@ -86,13 +95,20 @@ public class FilmService {
             count = 10;
         }
 
-        Comparator<Film> filmLikesComparator = Comparator.comparingInt(o -> o.getLikes().size());
-        return filmStorage.getSortedFilms(count, filmLikesComparator);
+        //Comparator<Film> filmLikesComparator = Comparator.comparingInt(o -> o.getLikes().size());
+        return filmStorage.getSortedFilms(count);
     }
 
     //вспомогательные методы
     private void validateFilmId(Long filmId) {
         if (!filmStorage.contains(filmId)) {
+            log.warn("Не найден фильм с id {}", filmId);
+            throw new NotFoundException("Не найден фильм с id" + filmId);
+        }
+    }
+
+    private void validateId(Optional<Film> mayBeFilm, Long filmId) {
+        if (mayBeFilm.isEmpty()) {
             log.warn("Не найден фильм с id {}", filmId);
             throw new NotFoundException("Не найден фильм с id" + filmId);
         }

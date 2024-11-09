@@ -1,9 +1,10 @@
-package ru.yandex.practicum.filmorate.storage.film;
+package ru.yandex.practicum.filmorate.storage;
 
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Optional;
 
 public interface FilmStorage {
 
@@ -15,11 +16,11 @@ public interface FilmStorage {
 
     boolean contains(Long id);
 
-    Film getFilmById(Long id);
+    Optional<Film> getFilmById(Long id);
 
     void addLikes(Long filmId, Long userId);
 
     void deleteLike(Long filmId, Long userId);
 
-    Collection<Film> getSortedFilms(Integer count, Comparator<Film> comparator);
+    Collection<Film> getSortedFilms(Integer count);
 }
