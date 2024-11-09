@@ -17,6 +17,4 @@ public interface FilmStorage {
     boolean contains(Long id);
 
     Optional<Film> getFilmById(Long id);
-
-    Collection<Film> getSortedFilms(Integer count);
 }

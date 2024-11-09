@@ -100,11 +100,7 @@ public class FilmService {
     }
 
     public Collection<Film> getPopularFilms(Integer count) {
-        if (count == null) {
-            count = 10;
-        }
-
-        return filmStorage.getSortedFilms(count);
+        return filmLikesStorage.getPopularFilms(count);
     }
 
     //вспомогательные методы
