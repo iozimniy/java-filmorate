@@ -12,7 +12,7 @@ import ru.yandex.practicum.filmorate.model.Genre;
 
 import java.util.Collection;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 @JdbcTest
 @AutoConfigureTestDatabase
@@ -20,20 +20,18 @@ import static org.junit.jupiter.api.Assertions.*;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @ComponentScan(basePackages = "ru.yandex.practicum.filmorate")
 public class FilmGenreRepositoryTests {
-    @Autowired
-    FilmGenreRepository filmGenreRepository;
-
     private static final Long FILM_WITH_GENRES = 1L;
-
     private static final Integer COUNT_GENRES_OF_FILM = 2;
     private static final Long GENRE_ID_TO_ADD = 5L;
+    @Autowired
+    FilmGenreRepository filmGenreRepository;
     //private static final Long GENRE_ID_TO_DELETE = 3L;
 
     @Test
     public void createFilmGenreTest() {
-       filmGenreRepository.create(FILM_WITH_GENRES, GENRE_ID_TO_ADD);
-       Integer countGenres = filmGenreRepository.getFilmGenres(FILM_WITH_GENRES).size();
-       assertSame(COUNT_GENRES_OF_FILM + 1, countGenres);
+        filmGenreRepository.create(FILM_WITH_GENRES, GENRE_ID_TO_ADD);
+        Integer countGenres = filmGenreRepository.getFilmGenres(FILM_WITH_GENRES).size();
+        assertSame(COUNT_GENRES_OF_FILM + 1, countGenres);
     }
 
     @Test

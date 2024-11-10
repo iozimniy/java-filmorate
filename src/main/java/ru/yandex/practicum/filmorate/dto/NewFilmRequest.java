@@ -7,7 +7,6 @@ import ru.yandex.practicum.filmorate.model.Rating;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.HashMap;
 
 @Data
 public class NewFilmRequest {

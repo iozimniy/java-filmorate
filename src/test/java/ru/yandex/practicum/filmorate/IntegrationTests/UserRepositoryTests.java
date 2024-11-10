@@ -7,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import ru.yandex.practicum.filmorate.dal.FilmRepository;
 import ru.yandex.practicum.filmorate.dal.UserRepository;
 import ru.yandex.practicum.filmorate.model.User;
 
@@ -24,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @ComponentScan(basePackages = "ru.yandex.practicum.filmorate")
 public class UserRepositoryTests {
 
-    @Autowired
-    UserRepository userRepository;
     private static final Long LAST_USER_ID_IN_DATA = 4L;
     private static final Integer COUNT_USER_IN_DATA = 4;
+    @Autowired
+    UserRepository userRepository;
 
     @Test
     public void getUsersTest() {

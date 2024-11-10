@@ -59,11 +59,7 @@ public class UserRepository extends BaseRepository<User> implements UserStorage 
     @Override
     public boolean contains(Long id) {
         Optional<User> user = getUserById(id);
-        if (user.isPresent()) {
-            return true;
-        }
-
-        return false;
+        return user.isPresent();
     }
 
     @Override

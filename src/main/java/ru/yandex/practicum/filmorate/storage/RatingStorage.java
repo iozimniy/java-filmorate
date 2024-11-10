@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface RatingStorage {
     Collection<Rating> getAll();
+
     Optional<Rating> getById(Long id);
+
     boolean isContainsId(Long id);
 }

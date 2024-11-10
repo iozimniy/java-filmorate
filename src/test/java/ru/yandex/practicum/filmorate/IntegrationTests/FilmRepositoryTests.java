@@ -1,31 +1,19 @@
 package ru.yandex.practicum.filmorate.IntegrationTests;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.test.context.ContextConfiguration;
-import ru.yandex.practicum.filmorate.FilmorateApplication;
-import ru.yandex.practicum.filmorate.dal.FilmGenreRepository;
 import ru.yandex.practicum.filmorate.dal.FilmRepository;
-import ru.yandex.practicum.filmorate.dal.RatingRepository;
-import ru.yandex.practicum.filmorate.dal.mappers.FilmRowMapper;
-import ru.yandex.practicum.filmorate.dal.mappers.RatingRowMapper;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Rating;
-import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,11 +26,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @ComponentScan(basePackages = "ru.yandex.practicum.filmorate")
 public class FilmRepositoryTests {
 
-    @Autowired
-    private final FilmRepository filmRepository;
-
     private static final Long LAST_FILM_ID_IN_DATA = 2L;
     private static final Integer COUNT_FILMS_IN_DATA = 2;
+    @Autowired
+    private final FilmRepository filmRepository;
 
     @Test
     public void getFilmsTest() {

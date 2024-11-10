@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface GenreStorage {
     Collection<Genre> getAll();
+
     Optional<Genre> getById(Long id);
+
     boolean isContainsId(Long id);
 }

@@ -12,7 +12,7 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 @JdbcTest
 @AutoConfigureTestDatabase
@@ -21,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @ComponentScan(basePackages = "ru.yandex.practicum.filmorate")
 public class FriendshipRepositoryTests {
 
-    @Autowired
-    FriendshipRepository friendshipRepository;
-    private static Integer COUNT_FRIENDS_FIRST_USER = 2;
     private static final Long FIRST_USER_ID_IN_DATA = 1L;
     private static final Long FRIEND_ID_TO_ADD = 4L;
     private static final Long FRIEND_ID_TO_DELETE = 2L;
     private static final Long USER_ID_FOR_COMMON_FRIENDS = 2L;
     private static final Integer COMMON_FRIENDS_COUNT = 1;
+    private static final Integer COUNT_FRIENDS_FIRST_USER = 2;
+    @Autowired
+    FriendshipRepository friendshipRepository;
 
     @Test
     public void getIdFriendsTest() {

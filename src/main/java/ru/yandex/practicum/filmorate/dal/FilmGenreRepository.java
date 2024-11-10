@@ -9,7 +9,6 @@ import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.FilmGenreStorage;
 
 import java.util.Collection;
-import java.util.List;
 
 @Slf4j
 @Repository

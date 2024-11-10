@@ -6,7 +6,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
 
 import java.sql.PreparedStatement;
@@ -43,7 +42,8 @@ public class BaseRepository<T> {
                 ps.setObject(idx + 1, params[idx]);
             }
 
-            return ps;}, keyHolder);
+            return ps;
+        }, keyHolder);
 
         Long id = keyHolder.getKeyAs(Integer.class).longValue();
 

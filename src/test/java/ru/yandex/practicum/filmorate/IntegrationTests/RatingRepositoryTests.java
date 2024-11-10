@@ -13,7 +13,8 @@ import ru.yandex.practicum.filmorate.model.Rating;
 import java.util.Collection;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @JdbcTest
 @AutoConfigureTestDatabase
@@ -22,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @ComponentScan(basePackages = "ru.yandex.practicum.filmorate")
 public class RatingRepositoryTests {
 
+    private static final Long FIRST_RATING_ID_IN_DATA = 1L;
+    private static final Integer COUNT_RATINGS_IN_DATA = 5;
     @Autowired
     RatingRepository ratingRepository;
-    private static Long FIRST_RATING_ID_IN_DATA = 1L;
-    private static Integer COUNT_RATINGS_IN_DATA = 5;
 
     @Test
     public void getAllRatingTest() {

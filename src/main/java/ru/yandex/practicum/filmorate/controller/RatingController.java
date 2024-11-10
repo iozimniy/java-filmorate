@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +23,10 @@ public class RatingController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Rating> getRating(@PathVariable("id") Long ratingId) {
-      log.info("Получен запрос на возврат информации о рейтинге с id {}", ratingId);
-      return ResponseEntity
-              .status(HttpStatus.OK)
-              .body(ratingService.getRating(ratingId));
+        log.info("Получен запрос на возврат информации о рейтинге с id {}", ratingId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ratingService.getRating(ratingId));
     }
 
     @GetMapping

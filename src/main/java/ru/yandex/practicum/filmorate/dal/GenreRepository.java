@@ -29,10 +29,6 @@ public class GenreRepository extends BaseRepository<Genre> implements GenreStora
 
     public boolean isContainsId(Long id) {
         Optional<Genre> genre = findOne(FIND_GENRE_BY_ID, id);
-        if (genre.isPresent()) {
-            return true;
-        }
-
-        return false;
+        return genre.isPresent();
     }
 }

@@ -7,15 +7,14 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import ru.yandex.practicum.filmorate.dal.FilmRepository;
 import ru.yandex.practicum.filmorate.dal.GenreRepository;
 import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.model.Rating;
 
 import java.util.Collection;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @JdbcTest
 @AutoConfigureTestDatabase
@@ -24,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @ComponentScan(basePackages = "ru.yandex.practicum.filmorate")
 public class GenreRepositoryTests {
 
+    private static final Long FIRST_GENRE_ID_IN_DATA = 1L;
+    private static final Integer COUNT_GENRE_IN_DATA = 6;
     @Autowired
     GenreRepository genreRepository;
-    private static Long FIRST_GENRE_ID_IN_DATA = 1L;
-    private static Integer COUNT_GENRE_IN_DATA = 6;
 
     @Test
     public void getAllRatingTest() {

@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public final class FilmMapper {
     RatingStorage ratingStorage;
     GenreStorage genreStorage;
+
     public Film mapToFilm(NewFilmRequest request) {
         Film film = new Film();
 

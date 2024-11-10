@@ -2,7 +2,6 @@ package ru.yandex.practicum.filmorate.dal;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -44,7 +43,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
                 film.getMpa().getId(),
                 film.getReleaseDate(),
                 film.getDuration()
-                );
+        );
 
         film.setId(id);
         return film;
@@ -68,11 +67,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
     @Override
     public boolean contains(Long id) {
         Optional<Film> film = getFilmById(id);
-        if (film.isPresent()) {
-            return true;
-        }
-
-        return false;
+        return film.isPresent();
     }
 
     @Override
