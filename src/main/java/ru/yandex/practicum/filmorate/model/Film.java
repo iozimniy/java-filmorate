@@ -21,5 +21,5 @@ public class Film {
     Rating mpa;
     LocalDate releaseDate;
     Integer duration;
-    Collection<Genre> genres = new ArrayList<>();
+    Collection<Genre> genres = new HashSet<>();
 }

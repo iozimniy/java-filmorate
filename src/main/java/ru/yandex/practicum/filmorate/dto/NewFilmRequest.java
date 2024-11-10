@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Rating;
 
 import java.time.LocalDate;
@@ -15,5 +16,6 @@ public class NewFilmRequest {
     LocalDate releaseDate;
     Integer duration;
     Rating mpa;
-    Collection<Long> genresId;
+    Collection<Genre> genres;
 }
+

@@ -40,21 +40,19 @@ public class FilmService {
         filmValidation.validateForCreate(request);
         Film newFilm = filmMapper.mapToFilm(request);
 
-
         Film film = filmStorage.create(newFilm);
         log.info("Новый фильм добавлен: {}", newFilm);
 
         if (film.getGenres() != null) {
             filmGenreService.create(film);
         }
-
         return film;
     }
 
     public Film update(Film film) {
         filmValidation.validateForUpdate(film);
 
-        if (!(filmStorage.contains(film.getId()))) {
+        if (!filmStorage.contains(film.getId())) {
             log.warn("Не найден фильм с id {}", film.getId());
             throw new NotFoundException("Фильм с id " + film.getId() + " не найден");
         }

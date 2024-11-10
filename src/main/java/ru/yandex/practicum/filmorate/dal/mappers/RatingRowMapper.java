@@ -12,6 +12,7 @@ public class RatingRowMapper implements RowMapper<Rating> {
     @Override
     public Rating mapRow(ResultSet rs, int rowNum) throws SQLException {
         Rating rating = new Rating();
+        rating.setId(rs.getLong("rating_id"));
         rating.setName(rs.getString("rating_name"));
 
         return rating;

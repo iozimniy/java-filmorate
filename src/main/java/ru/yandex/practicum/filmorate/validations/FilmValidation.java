@@ -48,12 +48,12 @@ public class FilmValidation {
             throw new ValidationException("Не существует рейтинга с id " + request.getMpa());
         }
 
-        if (request.getGenresId() != null) {
-            request.getGenresId().stream().forEach(id ->
+        if (request.getGenres() != null) {
+            request.getGenres().stream().forEach(obj ->
             {
-                if (!genreStorage.isContainsId(id)) {
-                    log.warn("Не существует жанра с id {}", id);
-                    throw new ValidationException("Не существует жанра с id " + id);
+                if (!genreStorage.isContainsId(obj.getId())) {
+                    log.warn("Не существует жанра с id {}", obj.getId());
+                    throw new ValidationException("Не существует жанра с id " + obj.getId());
                 }
             });
         }

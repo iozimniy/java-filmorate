@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.dal;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,14 +12,15 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Repository
+@Slf4j
 public class FilmRepository extends BaseRepository<Film> implements FilmStorage {
 
-    private static final String FIND_FILM_BY_ID = "SELECT * FROM films WHERE film_id = ?";
-    private static final String FIND_ALL_FILMS = "SELECT * FROM films";
-    private static final String CREATE_FILM = "INSERT INTO films(film_name, description, rating_id, release_date, duration)" +
-            "VALUES(?, ?, ?, ?, ?)";
-    private static final String UPDATE_FILM = "UPDATE films SET film_name = ?, " +
-            "description = ?, rating_id = ?, release_date = ?, duration = ? WHERE film_id = ?";
+    private final String FIND_FILM_BY_ID = "SELECT * FROM films WHERE film_id = ?;";
+    private final String FIND_ALL_FILMS = "SELECT * FROM films;";
+    private final String CREATE_FILM = "INSERT INTO films(film_name, description, rating_id, release_date, duration)" +
+            "VALUES(?, ?, ?, ?, ?);";
+    private final String UPDATE_FILM = "UPDATE films SET film_name = ?, " +
+            "description = ?, rating_id = ?, release_date = ?, duration = ? WHERE film_id = ?;";
 
     public FilmRepository(JdbcTemplate jdbc, RowMapper<Film> mapper) {
         super(jdbc, mapper);
@@ -36,7 +38,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
                 CREATE_FILM,
                 film.getName(),
                 film.getDescription(),
-                film.getMpa(),
+                film.getMpa().getId(),
                 film.getReleaseDate(),
                 film.getDuration()
                 );
@@ -71,7 +73,8 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
     }
 
     @Override
-    public Optional<Film> getFilmById(Long id) {
-        return findOne(FIND_FILM_BY_ID, id);
+    public Optional<Film> getFilmById(Long filmId) {
+        log.info("Запрос {}", findOne(FIND_FILM_BY_ID, filmId));
+        return findOne(FIND_FILM_BY_ID, filmId);
     }
 }
