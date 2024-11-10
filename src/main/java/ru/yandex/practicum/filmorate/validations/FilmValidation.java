@@ -7,10 +7,12 @@ import org.springframework.util.StringUtils;
 import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.GenreStorage;
 import ru.yandex.practicum.filmorate.storage.RatingStorage;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
 @Slf4j
 @AllArgsConstructor
@@ -49,12 +51,13 @@ public class FilmValidation {
         }
 
         if (request.getGenres() != null) {
-            request.getGenres().stream().forEach(obj ->
-            {if (!genreStorage.isContainsId(obj.getId())) {
-                    log.warn("Не существует жанра с id {}", obj.getId());
-                    throw new ValidationException("Не существует жанра с id " + obj.getId());
+            Collection<Genre> genres = request.getGenres();
+            for (Genre genre : genres) {
+                if (!genreStorage.isContainsId(genre.getId())) {
+                    log.warn("Не существует жанра с id {}", genre.getId());
+                    throw new ValidationException("Не существует жанра с id " + genre.getId());
                 }
-            });
+            }
         }
     }
 
