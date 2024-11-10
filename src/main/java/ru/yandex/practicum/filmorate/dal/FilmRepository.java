@@ -15,7 +15,9 @@ import java.util.Optional;
 @Slf4j
 public class FilmRepository extends BaseRepository<Film> implements FilmStorage {
 
-    private final String FIND_FILM_BY_ID = "SELECT * FROM films WHERE film_id = ?;";
+    //Так сделано из-за того, что в запрос не передаётся параметр.
+    //Почему так просходит, не понятно.
+    private final String FIND_FILM_BY_ID = "SELECT * FROM films WHERE film_id = ";
     private final String FIND_ALL_FILMS = "SELECT * FROM films;";
     private final String CREATE_FILM = "INSERT INTO films(film_name, description, rating_id, release_date, duration)" +
             "VALUES(?, ?, ?, ?, ?);";
@@ -53,7 +55,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
                 UPDATE_FILM,
                 film.getName(),
                 film.getDescription(),
-                film.getMpa(),
+                film.getMpa().getId(),
                 film.getReleaseDate(),
                 film.getDuration(),
                 film.getId()
@@ -74,7 +76,6 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
 
     @Override
     public Optional<Film> getFilmById(Long filmId) {
-        log.info("Запрос {}", findOne(FIND_FILM_BY_ID, filmId));
-        return findOne(FIND_FILM_BY_ID, filmId);
+        return findOne(FIND_FILM_BY_ID + filmId);
     }
 }
