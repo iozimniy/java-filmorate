@@ -12,9 +12,9 @@ import java.util.Optional;
 @Repository
 public class UserRepository extends BaseRepository<User> implements UserStorage {
 
-    private final String FIND_ALL_USERS = "SELECT * FROM users";
-    private final String FIND_USER_BY_ID = "SELECT * FROM users WHERE user_id = ?";
-    private final String CREATE_USER = "INSERT INTO users(email, login, user_name, birthday) " +
+    private static final String FIND_ALL_USERS = "SELECT * FROM users";
+    private static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE user_id = ?";
+    private static final String CREATE_USER = "INSERT INTO users(email, login, user_name, birthday) " +
             "VALUES(?, ?, ?, ?)";
     private final String UPDATE_USER = "UPDATE users SET email = ?, login = ?, user_name = ?, birthday = ?" +
             "WHERE user_id = ?";

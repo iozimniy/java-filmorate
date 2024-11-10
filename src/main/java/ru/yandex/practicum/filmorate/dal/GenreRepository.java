@@ -12,8 +12,8 @@ import java.util.Optional;
 @Repository
 public class GenreRepository extends BaseRepository<Genre> implements GenreStorage {
 
-    private final String FIND_ALL_GENRES = "SELECT * FROM genre";
-    private final String FIND_GENRE_BY_ID = "SELECT * FROM genre WHERE genre_id = ?";
+    private static final String FIND_ALL_GENRES = "SELECT * FROM genre";
+    private static final String FIND_GENRE_BY_ID = "SELECT * FROM genre WHERE genre_id = ?";
 
     public GenreRepository(JdbcTemplate jdbc, RowMapper<Genre> mapper) {
         super(jdbc, mapper);

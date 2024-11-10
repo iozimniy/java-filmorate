@@ -13,15 +13,15 @@ import java.util.Collection;
 @Slf4j
 @Repository
 public class FriendshipRepository extends BaseRepository<User> implements FriendshipStorage {
-    private final String FIND_USER_FRIENDS_ID = "SELECT friend_id FROM friendship WHERE user_id = ?";
-    private final String FIND_ALL_USER_FRIENDS = "SELECT u.* FROM friendship as f " +
+    private static final String FIND_USER_FRIENDS_ID = "SELECT friend_id FROM friendship WHERE user_id = ?";
+    private static final String FIND_ALL_USER_FRIENDS = "SELECT u.* FROM friendship as f " +
             "JOIN users as u ON f.friend_id = u.user_id WHERE f.user_id = ?;";
-    private final String FIND_COMMON_FRIENDS = "SELECT u.* FROM Users as u " +
+    private static final String FIND_COMMON_FRIENDS = "SELECT u.* FROM Users as u " +
             "JOIN friendship as f1 ON u.user_id = f1.friend_id " +
             "JOIN friendship as f2 ON u.user_id = f2.friend_id " +
             "WHERE f1.user_id = ? AND f2.user_id = ?;";
-    private final String CREATE_FRIENDSHIP = "INSERT INTO friendship(user_id, friend_id) VALUES(?, ?)";
-    private final String DELETE_FRIEND = "DELETE FROM friendship WHERE user_id = ? AND friend_id = ?";
+    private static final String CREATE_FRIENDSHIP = "INSERT INTO friendship(user_id, friend_id) VALUES(?, ?)";
+    private static final String DELETE_FRIEND = "DELETE FROM friendship WHERE user_id = ? AND friend_id = ?";
 
     public FriendshipRepository(JdbcTemplate jdbc, RowMapper<User> mapper) {
         super(jdbc, mapper);

@@ -13,10 +13,10 @@ import java.util.Collection;
 @Repository
 @Slf4j
 public class FilmLikesRepository extends BaseRepository<Film> implements FilmLikesStorage {
-    private final String CREATE_FILM_LIKE = "INSERT INTO film_likes(film_id, user_id) VALUES(?, ?)";
-    private final String DELETE_FILM_LIKE = "DELETE FROM film_likes WHERE film_id = ? AND user_id = ?";
-    private final String GET_FILM_COUNT_LIKES = "SELECT COUNT(*) FROM film_likes WHERE film_id = ?";
-    private final String FIND_POPULAR_FILMS = "SELECT f.* FROM films as f " +
+    private static final String CREATE_FILM_LIKE = "INSERT INTO film_likes(film_id, user_id) VALUES(?, ?)";
+    private static final String DELETE_FILM_LIKE = "DELETE FROM film_likes WHERE film_id = ? AND user_id = ?";
+    private static final String GET_FILM_COUNT_LIKES = "SELECT COUNT(*) FROM film_likes WHERE film_id = ?";
+    private static final String FIND_POPULAR_FILMS = "SELECT f.* FROM films as f " +
             "LEFT JOIN film_likes fl ON f.film_id = fl.film_id GROUP BY f.film_id ORDER BY COUNT(fl.user_id) DESC LIMIT ?;";
 
     public FilmLikesRepository(JdbcTemplate jdbc, RowMapper<Film> mapper) {

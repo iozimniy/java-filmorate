@@ -13,9 +13,9 @@ import java.util.Collection;
 @Slf4j
 @Repository
 public class FilmGenreRepository extends BaseRepository<Genre> implements FilmGenreStorage {
-    private final String CREATE_FILM_GENRE = "INSERT INTO film_genre(film_id, genre_id) VALUES(?, ?)";
-    private final String DELETE_FILM_GENRE = "DELETE FROM film_genre WHERE film_id = ?";
-    private final String FIND_FILM_GENRES = "SELECT DISTINCT g.* FROM film_genre as fg " +
+    private static final String CREATE_FILM_GENRE = "INSERT INTO film_genre(film_id, genre_id) VALUES(?, ?)";
+    private static final String DELETE_FILM_GENRE = "DELETE FROM film_genre WHERE film_id = ?";
+    private static final String FIND_FILM_GENRES = "SELECT DISTINCT g.* FROM film_genre as fg " +
             "LEFT JOIN genre AS g ON fg.genre_id = g.genre_id WHERE film_id = ?";
 
     public FilmGenreRepository(JdbcTemplate jdbc, RowMapper<Genre> mapper) {

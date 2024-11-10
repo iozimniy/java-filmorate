@@ -17,11 +17,11 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
 
     //Так сделано из-за того, что в запрос не передаётся параметр.
     //Почему так просходит, не понятно.
-    private final String FIND_FILM_BY_ID = "SELECT * FROM films WHERE film_id = ";
-    private final String FIND_ALL_FILMS = "SELECT * FROM films;";
-    private final String CREATE_FILM = "INSERT INTO films(film_name, description, rating_id, release_date, duration)" +
+    private static final String FIND_FILM_BY_ID = "SELECT * FROM films WHERE film_id = ";
+    private static final String FIND_ALL_FILMS = "SELECT * FROM films;";
+    private static final String CREATE_FILM = "INSERT INTO films(film_name, description, rating_id, release_date, duration)" +
             "VALUES(?, ?, ?, ?, ?);";
-    private final String UPDATE_FILM = "UPDATE films SET film_name = ?, " +
+    private static final String UPDATE_FILM = "UPDATE films SET film_name = ?, " +
             "description = ?, rating_id = ?, release_date = ?, duration = ? WHERE film_id = ?;";
 
     public FilmRepository(JdbcTemplate jdbc, RowMapper<Film> mapper) {
