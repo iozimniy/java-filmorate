@@ -17,6 +17,7 @@ import java.util.Collection;
 public class UserService {
     UserStorage userStorage;
     FriendshipStorage friendshipStorage;
+    UserValidation userValidation;
 
     public Collection<User> getUsers() {
         return userStorage.getUsers();
@@ -28,7 +29,7 @@ public class UserService {
     }
 
     public User create(User user) {
-        UserValidation.validateForCreate(user);
+        userValidation.validateForCreate(user);
 
         User newUser = userStorage.create(user);
         log.info("Создан новый пользователь: {}", newUser);
@@ -36,7 +37,7 @@ public class UserService {
     }
 
     public User update(User user) {
-        UserValidation.validateForUpdate(user);
+        userValidation.validateForUpdate(user);
 
         if (!(userStorage.contains(user.getId()))) {
             log.warn("Не найден пользователь с id {}", user.getId());
