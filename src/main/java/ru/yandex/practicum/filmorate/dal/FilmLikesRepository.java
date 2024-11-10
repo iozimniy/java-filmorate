@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.dal;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +15,7 @@ import java.util.Collection;
 public class FilmLikesRepository extends BaseRepository<Film> implements FilmLikesStorage {
     private final String CREATE_FILM_LIKE = "INSERT INTO film_likes(film_id, user_id) VALUES(?, ?)";
     private final String DELETE_FILM_LIKE = "DELETE FROM film_likes WHERE film_id = ? AND user_id = ?";
+    private final String GET_FILM_COUNT_LIKES = "SELECT COUNT(*) FROM film_likes WHERE film_id = ?";
     private final String FIND_POPULAR_FILMS = "SELECT f.* FROM films as f " +
             "LEFT JOIN film_likes fl ON f.film_id = fl.film_id GROUP BY f.film_id ORDER BY COUNT(fl.user_id) DESC LIMIT ?;";
 
@@ -49,6 +49,10 @@ public class FilmLikesRepository extends BaseRepository<Film> implements FilmLik
             log.error("Не удалось удалить лайк у фильма с id {} от пользователя с id {}", filmId, userId);
             throw new InternalServerException("Не удалось удалить данные");
         }
+    }
+
+    public Integer getCountFilmLikes(Long filmId) {
+        return jdbc.queryForObject(GET_FILM_COUNT_LIKES, Integer.class, filmId);
     }
 
     @Override

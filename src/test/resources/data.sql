@@ -24,3 +24,18 @@ VALUES(1, 3);
 
 INSERT INTO friendship(user_id, friend_id)
 VALUES(2, 3);
+
+INSERT INTO film_likes(film_id, user_id)
+VALUES(1, 1);
+
+INSERT INTO film_likes(film_id, user_id)
+VALUES(1, 2);
+
+INSERT INTO film_likes(film_id, user_id)
+VALUES(2, 3);
+
+INSERT INTO film_genre(film_id, genre_id)
+VALUES(1, 3);
+
+INSERT INTO film_genre(film_id, genre_id)
+VALUES(1, 2);
