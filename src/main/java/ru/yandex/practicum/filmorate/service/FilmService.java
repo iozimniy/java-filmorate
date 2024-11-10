@@ -37,7 +37,6 @@ public class FilmService {
         validateFilmId(filmId);
         Film film = filmStorage.getFilmById(filmId).get();
         film.setGenres(filmGenreStorage.getFilmGenres(filmId));
-        log.info("Жанры {}", filmGenreStorage.getFilmGenres(filmId));
         return film;
     }
 

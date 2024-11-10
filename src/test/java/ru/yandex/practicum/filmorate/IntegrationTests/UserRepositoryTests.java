@@ -26,8 +26,8 @@ public class UserRepositoryTests {
 
     @Autowired
     UserRepository userRepository;
-    private static final Long LAST_USER_ID_IN_DATA = 2L;
-    private static final Integer COUNT_USER_IN_DATA = 2;
+    private static final Long LAST_USER_ID_IN_DATA = 4L;
+    private static final Integer COUNT_USER_IN_DATA = 4;
 
     @Test
     public void getUsersTest() {
