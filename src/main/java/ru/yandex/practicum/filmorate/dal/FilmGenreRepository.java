@@ -51,7 +51,7 @@ public class FilmGenreRepository extends BaseRepository<Genre> implements FilmGe
     }
 
     @Override
-    public Collection<Genre> getFilmGenresId(Long id) {
+    public Collection<Genre> getFilmGenres(Long id) {
         return findMany(FIND_FILM_GENRES, id);
     }
 }
