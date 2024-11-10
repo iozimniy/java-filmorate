@@ -11,8 +11,8 @@ public class FilmGenreService {
     private FilmGenreStorage filmGenreStorage;
 
     public void create(Film film) {
-        film.getGenres().stream().forEach(id -> {
-            filmGenreStorage.create(film.getId(), id);
+        film.getGenres().stream().forEach(genre -> {
+            filmGenreStorage.create(film.getId(), genre.getId());
         });
     }
 

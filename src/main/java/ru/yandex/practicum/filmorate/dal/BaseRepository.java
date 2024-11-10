@@ -21,10 +21,12 @@ public class BaseRepository<T> {
     protected final RowMapper<T> mapper;
 
     protected Optional<T> findOne(String query, Object... params) {
+        log.info("В параметры передаётся такое {}", params);
         try {
             T result = jdbc.queryForObject(query, mapper, params);
             return Optional.ofNullable(result);
         } catch (DataAccessException e) {
+            log.info(e.getMessage());
             return Optional.empty();
         }
     }

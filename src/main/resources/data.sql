@@ -1,6 +1,6 @@
 INSERT INTO genre(genre_name) VALUES ('Комедия');
 INSERT INTO genre(genre_name) VALUES ('Драма');
-INSERT INTO genre(genre_name) VALUES ('Детский');
+INSERT INTO genre(genre_name) VALUES ('Мультфильм');
 INSERT INTO genre(genre_name) VALUES ('Триллер');
 INSERT INTO genre(genre_name) VALUES ('Документальный');
 INSERT INTO genre(genre_name) VALUES ('Боевик');

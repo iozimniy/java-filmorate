@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -20,6 +21,5 @@ public class Film {
     Rating mpa;
     LocalDate releaseDate;
     Integer duration;
-    Collection<Long> genres = new HashSet<>(){
-    };
+    Collection<Genre> genres = new ArrayList<>();
 }
