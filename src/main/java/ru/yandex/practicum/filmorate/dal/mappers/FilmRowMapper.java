@@ -35,7 +35,7 @@ public class FilmRowMapper implements RowMapper<Film> {
         }
 
 
-        Collection<Genre> genres = filmGenreStorage.getFilmGenresId(film.getId());
+        Collection<Genre> genres = filmGenreStorage.getFilmGenres(film.getId());
         if (!genres.isEmpty()) {
             film.setGenres(genres);
         }

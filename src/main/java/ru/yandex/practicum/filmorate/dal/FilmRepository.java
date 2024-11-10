@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.dal;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -24,6 +25,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
     private final String UPDATE_FILM = "UPDATE films SET film_name = ?, " +
             "description = ?, rating_id = ?, release_date = ?, duration = ? WHERE film_id = ?;";
 
+    @Autowired
     public FilmRepository(JdbcTemplate jdbc, RowMapper<Film> mapper) {
         super(jdbc, mapper);
     }

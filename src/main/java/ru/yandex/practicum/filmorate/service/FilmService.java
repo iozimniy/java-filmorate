@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Rating;
+import ru.yandex.practicum.filmorate.storage.FilmGenreStorage;
 import ru.yandex.practicum.filmorate.storage.FilmLikesStorage;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.RatingStorage;
@@ -26,6 +27,7 @@ public class FilmService {
     FilmLikesStorage filmLikesStorage;
     RatingStorage ratingStorage;
     FilmMapper filmMapper;
+    FilmGenreStorage filmGenreStorage;
 
     public Collection<Film> getFilms() {
         return filmStorage.getFilms();
@@ -33,7 +35,10 @@ public class FilmService {
 
     public Film getFilm(Long filmId) {
         validateFilmId(filmId);
-        return filmStorage.getFilmById(filmId).get();
+        Film film = filmStorage.getFilmById(filmId).get();
+        film.setGenres(filmGenreStorage.getFilmGenres(filmId));
+        log.info("Жанры {}", filmGenreStorage.getFilmGenres(filmId));
+        return film;
     }
 
     public Film create(NewFilmRequest request) {
@@ -44,7 +49,7 @@ public class FilmService {
         log.info("Новый фильм добавлен: {}", newFilm);
 
         if (film.getGenres() != null) {
-            filmGenreService.create(film);
+            film.getGenres().stream().forEach(genre -> filmGenreStorage.create(film.getId(), genre.getId()));
         }
         return film;
     }
