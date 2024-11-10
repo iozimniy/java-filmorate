@@ -50,8 +50,7 @@ public class FilmValidation {
 
         if (request.getGenres() != null) {
             request.getGenres().stream().forEach(obj ->
-            {
-                if (!genreStorage.isContainsId(obj.getId())) {
+            {if (!genreStorage.isContainsId(obj.getId())) {
                     log.warn("Не существует жанра с id {}", obj.getId());
                     throw new ValidationException("Не существует жанра с id " + obj.getId());
                 }
