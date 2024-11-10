@@ -49,13 +49,12 @@ public class FilmRepositoryTests {
         Collection<Film> filmCollection = filmRepository.getFilms();
 
         assertAll(
-                () -> assertFalse(filmCollection.isEmpty()),
                 () -> assertSame(filmCollection.size(), COUNT_FILMS_IN_DATA)
         );
     }
 
     @Test
-    public void createTest() {
+    public void createFilmTest() {
         Film film = new Film(null, "Новый фильм", "Описание нового фильма",
                 new Rating(2L, "PG"), LocalDate.of(2017, 02, 19),
                 60, List.of(new Genre(1L, "Комедия")));
@@ -66,14 +65,24 @@ public class FilmRepositoryTests {
     }
 
     @Test
-    public void updateFilm() {
+    public void updateFilmTest() {
         Film film = new Film(LAST_FILM_ID_IN_DATA, "Изменённый фильм фильм", "Описание изменённого фильма",
                 new Rating(4L, "R"), LocalDate.of(2010, 11, 15),
                 60, List.of(new Genre(6L, "Боевик")));
 
         filmRepository.update(film);
 
-        assertSame(filmRepository.getFilmById(LAST_FILM_ID_IN_DATA).get().getName(), film.getName());
+        assertAll(
+                () -> assertSame(filmRepository.getFilmById(LAST_FILM_ID_IN_DATA).get().getName(), film.getName()),
+                () -> assertSame(filmRepository.getFilmById(LAST_FILM_ID_IN_DATA).get().getDescription(),
+                        film.getDescription()),
+                () -> assertEquals(filmRepository.getFilmById(LAST_FILM_ID_IN_DATA).get().getMpa(),
+                        film.getMpa()),
+                () -> assertEquals(filmRepository.getFilmById(LAST_FILM_ID_IN_DATA).get().getReleaseDate(),
+                        film.getReleaseDate()),
+                () -> assertSame(filmRepository.getFilmById(LAST_FILM_ID_IN_DATA).get().getDuration(),
+                        film.getDuration())
+        );
     }
 
     @Test
@@ -84,7 +93,7 @@ public class FilmRepositoryTests {
     }
 
     @Test
-    public void getFilmContains() {
+    public void getFilmContainsTest() {
         assertTrue(filmRepository.contains(LAST_FILM_ID_IN_DATA));
     }
 }
