@@ -13,6 +13,8 @@ import ru.yandex.practicum.filmorate.storage.RatingStorage;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -51,13 +53,14 @@ public class FilmValidation {
         }
 
         if (request.getGenres() != null) {
-            Collection<Genre> genres = request.getGenres();
-            for (Genre genre : genres) {
-                if (!genreStorage.contains(genre.getId())) {
+            // Тут можно использовать запрос с EXIST, но тогда мы не получим несуществующий id
+            List<Long> genresId = genreStorage.getAllId();
+            request.getGenres().forEach(genre -> {
+                if (!genresId.contains(genre.getId())) {
                     log.warn("Не существует жанра с id {}", genre.getId());
                     throw new ValidationException("Не существует жанра с id " + genre.getId());
                 }
-            }
+            });
         }
     }
 
