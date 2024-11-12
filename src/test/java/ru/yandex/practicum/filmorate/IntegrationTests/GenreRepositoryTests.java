@@ -38,19 +38,24 @@ public class GenreRepositoryTests {
     }
 
     @Test
-    public void getRatingByIdTest() {
-        Optional<Genre> rating = genreRepository.getById(FIRST_GENRE_ID_IN_DATA);
-
-        assertTrue(rating.isPresent());
+    public void getByIdTest() {
+        Optional<Genre> genre = genreRepository.getById(FIRST_GENRE_ID_IN_DATA);
+        assertTrue(genre.isPresent());
     }
 
     @Test
-    public void isContainsRatingIdTest() {
+    public void isContainsGenreIdTest() {
         assertTrue(genreRepository.contains(FIRST_GENRE_ID_IN_DATA));
     }
 
     @Test
-    public void getGenresByIdTest() {
+    public void getAllIdTest() {
+        Collection<Long> genres = genreRepository.getAllId();
+        assertSame(COUNT_GENRE_IN_DATA, genres.size());
+    }
+
+    @Test
+    public void getGenresByTest() {
         Collection<Genre> genres = genreRepository.getGenresById(LIST_IDS);
         assertSame(LIST_IDS.size(), genres.size());
     }
