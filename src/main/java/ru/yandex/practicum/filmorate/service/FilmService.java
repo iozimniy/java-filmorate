@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.FilmGenre;
 import ru.yandex.practicum.filmorate.storage.FilmGenreStorage;
 import ru.yandex.practicum.filmorate.storage.FilmLikesStorage;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
@@ -16,6 +17,7 @@ import ru.yandex.practicum.filmorate.validations.FilmValidation;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -46,18 +48,19 @@ public class FilmService {
         Film newFilm = filmMapper.mapToFilm(request);
 
         try {
-           Film film = filmStorage.create(newFilm);
+            Film film = filmStorage.create(newFilm);
             log.info("Новый фильм добавлен: {}", newFilm);
 
             if (film.getGenres() != null) {
-                film.getGenres().stream().forEach(genre -> {
-                    try {
-                        filmGenreStorage.create(film.getId(), genre.getId());
-                    } catch (SQLException e) {
-                        log.info("Ошибка обращения к DB: {}", e.getMessage());
-                        throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
-                    }
-                });
+                try {
+                    filmGenreStorage.create(film.getGenres()
+                            .stream()
+                            .map(genre -> new FilmGenre(film.getId(), genre.getId()))
+                            .collect(Collectors.toList()));
+                } catch (SQLException e) {
+                    log.info("Ошибка обращения к DB: {}", e.getMessage());
+                    throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+                }
             }
 
             return film;

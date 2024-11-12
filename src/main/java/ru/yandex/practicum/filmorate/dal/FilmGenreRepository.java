@@ -3,13 +3,16 @@ package ru.yandex.practicum.filmorate.dal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
+import ru.yandex.practicum.filmorate.model.FilmGenre;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.FilmGenreStorage;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Slf4j
 @Repository
@@ -18,23 +21,23 @@ public class FilmGenreRepository extends BaseRepository<Genre> implements FilmGe
     private static final String DELETE_FILM_GENRE = "DELETE FROM film_genre WHERE film_id = ?";
     private static final String FIND_FILM_GENRES = "SELECT DISTINCT g.* FROM film_genre as fg " +
             "LEFT JOIN genre AS g ON fg.genre_id = g.genre_id WHERE film_id = ?";
+    private static final String CREATE_MANY_FILM_GENRE = "INSERT INTO film_genre(film_id, genre_id) VALUES (?, ?);";
 
     public FilmGenreRepository(JdbcTemplate jdbc, RowMapper<Genre> mapper) {
         super(jdbc, mapper);
     }
 
     @Override
-    public void create(Long filmId, Long genreId) throws SQLException {
-        Integer result = jdbc.update(
-                CREATE_FILM_GENRE,
-                filmId,
-                genreId
-        );
+    public void create(List<FilmGenre> filmGenres) throws SQLException {
+        List<Object[]> batch = new ArrayList<>();
+        filmGenres.stream().forEach(filmGenre -> {
+            Object[] values = new Object[]{
+                    filmGenre.getFilmId(), filmGenre.getGenreId()
+            };
+            batch.add(values);
+        });
 
-        if (result == 0) {
-            log.error("Не удалось добавить запись с film_id {} и genre_id {}", filmId, genreId);
-            throw new SQLException("Не удалось сохранить данные");
-        }
+        jdbc.batchUpdate(CREATE_MANY_FILM_GENRE, batch);
     }
 
     @Override
