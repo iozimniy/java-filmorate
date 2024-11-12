@@ -44,6 +44,6 @@ public class GenreRepositoryTests {
 
     @Test
     public void isContainsRatingIdTest() {
-        assertTrue(genreRepository.isContainsId(FIRST_GENRE_ID_IN_DATA));
+        assertTrue(genreRepository.contains(FIRST_GENRE_ID_IN_DATA));
     }
 }

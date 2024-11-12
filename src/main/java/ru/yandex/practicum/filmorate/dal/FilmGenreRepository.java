@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.FilmGenreStorage;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 @Slf4j
@@ -23,7 +24,7 @@ public class FilmGenreRepository extends BaseRepository<Genre> implements FilmGe
     }
 
     @Override
-    public void create(Long filmId, Long genreId) {
+    public void create(Long filmId, Long genreId) throws SQLException {
         Integer result = jdbc.update(
                 CREATE_FILM_GENRE,
                 filmId,
@@ -32,12 +33,12 @@ public class FilmGenreRepository extends BaseRepository<Genre> implements FilmGe
 
         if (result == 0) {
             log.error("Не удалось добавить запись с film_id {} и genre_id {}", filmId, genreId);
-            throw new InternalServerException("Не удалось сохранить данные");
+            throw new SQLException("Не удалось сохранить данные");
         }
     }
 
     @Override
-    public void delete(Long filmId) {
+    public void delete(Long filmId) throws SQLException {
         Integer result = jdbc.update(
                 DELETE_FILM_GENRE,
                 filmId
@@ -45,7 +46,7 @@ public class FilmGenreRepository extends BaseRepository<Genre> implements FilmGe
 
         if (result == 0) {
             log.error("Не удалось удалить записи с film_id {}", filmId);
-            throw new InternalServerException("Не удалось удалить данные");
+            throw new SQLException("Не удалось удалить данные");
         }
     }
 

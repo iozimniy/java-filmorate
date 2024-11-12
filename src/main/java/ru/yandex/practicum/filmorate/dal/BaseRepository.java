@@ -9,6 +9,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class BaseRepository<T> {
         return jdbc.query(query, mapper, params);
     }
 
-    protected long insert(String query, Object... params) {
+    protected long insert(String query, Object... params) throws SQLException {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbc.update(connection -> {
             PreparedStatement ps = connection
@@ -51,15 +52,15 @@ public class BaseRepository<T> {
             return id;
         } else {
             log.error("Не удалось добавить запись в таблицу по запросу {} c параметрами {}", query, params);
-            throw new InternalServerException("Не удалось сохранить данные.");
+            throw new SQLException("Не удалось сохранить данные.");
         }
     }
 
-    protected void update(String query, Object... params) {
+    protected void update(String query, Object... params) throws SQLException {
         int rowUpdated = jdbc.update(query, params);
         if (rowUpdated == 0) {
             log.error("Не удалось обновить данные по запросу {} c параметрами {}", query, params);
-            throw new InternalServerException("Не удалось обновить данные");
+            throw new SQLException("Не удалось обновить данные");
         }
     }
 }

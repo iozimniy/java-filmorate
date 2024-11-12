@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FriendshipStorage;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 @Slf4j
@@ -33,20 +34,20 @@ public class FriendshipRepository extends BaseRepository<User> implements Friend
     }
 
     @Override
-    public void addFriend(Long userId, Long friendId) {
+    public void addFriend(Long userId, Long friendId) throws SQLException {
         Integer result = jdbc.update(CREATE_FRIENDSHIP, userId, friendId);
         if (result == 0) {
             log.error("Не удалось добавить запись с user_id {} и friend_id {}", userId, friendId);
-            throw new InternalServerException("Не удалось сохранить данные");
+            throw new SQLException("Не удалось сохранить данные");
         }
     }
 
     @Override
-    public void deleteFriend(Long userId, Long friendId) {
+    public void deleteFriend(Long userId, Long friendId) throws SQLException {
         Integer result = jdbc.update(DELETE_FRIEND, userId, friendId);
         if (result == 0) {
             log.error("Не удалось удалить запись с user_id {} и friend_id {}", userId, friendId);
-            throw new InternalServerException("Не удалось сохранить данные");
+            throw new SQLException("Не удалось сохранить данные");
         }
     }
 

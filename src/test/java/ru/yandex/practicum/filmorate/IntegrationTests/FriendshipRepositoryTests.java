@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 import ru.yandex.practicum.filmorate.dal.FriendshipRepository;
 import ru.yandex.practicum.filmorate.model.User;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -38,14 +39,14 @@ public class FriendshipRepositoryTests {
     }
 
     @Test
-    public void addFriendTest() {
+    public void addFriendTest() throws SQLException {
         friendshipRepository.addFriend(FIRST_USER_ID_IN_DATA, FRIEND_ID_TO_ADD);
         Collection<Long> friends = friendshipRepository.getIdFriends(FIRST_USER_ID_IN_DATA);
         assertSame(COUNT_FRIENDS_FIRST_USER + 1, friends.size());
     }
 
     @Test
-    public void deleteFriendTest() {
+    public void deleteFriendTest() throws SQLException {
         friendshipRepository.deleteFriend(FIRST_USER_ID_IN_DATA, FRIEND_ID_TO_DELETE);
         Collection<Long> friends = friendshipRepository.getIdFriends(FIRST_USER_ID_IN_DATA);
         assertSame(COUNT_FRIENDS_FIRST_USER - 1, friends.size());

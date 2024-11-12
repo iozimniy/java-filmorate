@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 import ru.yandex.practicum.filmorate.dal.FilmGenreRepository;
 import ru.yandex.practicum.filmorate.model.Genre;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -28,14 +29,14 @@ public class FilmGenreRepositoryTests {
     //private static final Long GENRE_ID_TO_DELETE = 3L;
 
     @Test
-    public void createFilmGenreTest() {
+    public void createFilmGenreTest() throws SQLException {
         filmGenreRepository.create(FILM_WITH_GENRES, GENRE_ID_TO_ADD);
         Integer countGenres = filmGenreRepository.getFilmGenres(FILM_WITH_GENRES).size();
         assertSame(COUNT_GENRES_OF_FILM + 1, countGenres);
     }
 
     @Test
-    public void deleteFilmGenreTest() {
+    public void deleteFilmGenreTest() throws SQLException {
         filmGenreRepository.delete(FILM_WITH_GENRES);
         Integer countGenres = filmGenreRepository.getFilmGenres(FILM_WITH_GENRES).size();
         assertSame(0, countGenres);

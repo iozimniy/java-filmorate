@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
     }
 
     @Override
-    public Film create(Film film) {
+    public Film create(Film film) throws SQLException {
         Long id = insert(
                 CREATE_FILM,
                 film.getName(),
@@ -50,7 +51,7 @@ public class FilmRepository extends BaseRepository<Film> implements FilmStorage 
     }
 
     @Override
-    public Film update(Film film) {
+    public Film update(Film film) throws SQLException {
         update(
                 UPDATE_FILM,
                 film.getName(),

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class UserRepository extends BaseRepository<User> implements UserStorage 
     }
 
     @Override
-    public User create(User user) {
+    public User create(User user) throws SQLException {
         Long id = insert(
                 CREATE_USER,
                 user.getEmail(),
@@ -43,7 +44,7 @@ public class UserRepository extends BaseRepository<User> implements UserStorage 
     }
 
     @Override
-    public User update(User user) {
+    public User update(User user) throws SQLException {
         update(
                 UPDATE_USER,
                 user.getEmail(),

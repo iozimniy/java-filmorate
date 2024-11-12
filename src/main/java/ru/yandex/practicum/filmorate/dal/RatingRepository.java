@@ -27,7 +27,7 @@ public class RatingRepository extends BaseRepository<Rating> implements RatingSt
         return findOne(FIND_RATING_BY_ID, id);
     }
 
-    public boolean isContainsId(Long id) {
+    public boolean contains(Long id) {
         Optional<Rating> rating = findOne(FIND_RATING_BY_ID, id);
         return rating.isPresent();
     }

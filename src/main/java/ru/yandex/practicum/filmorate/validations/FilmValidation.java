@@ -45,7 +45,7 @@ public class FilmValidation {
             throw new ValidationException("Продолжительность фильма должна быть положительным числом");
         }
 
-        if (request.getMpa() != null && !ratingStorage.isContainsId(request.getMpa().getId())) {
+        if (request.getMpa() != null && !ratingStorage.contains(request.getMpa().getId())) {
             log.warn("Не существует рейтинга с id {}", request.getMpa());
             throw new ValidationException("Не существует рейтинга с id " + request.getMpa());
         }
@@ -53,7 +53,7 @@ public class FilmValidation {
         if (request.getGenres() != null) {
             Collection<Genre> genres = request.getGenres();
             for (Genre genre : genres) {
-                if (!genreStorage.isContainsId(genre.getId())) {
+                if (!genreStorage.contains(genre.getId())) {
                     log.warn("Не существует жанра с id {}", genre.getId());
                     throw new ValidationException("Не существует жанра с id " + genre.getId());
                 }
@@ -82,7 +82,7 @@ public class FilmValidation {
             throw new ValidationException("Продолжительность фильма должна быть положительным числом");
         }
 
-        if (film.getMpa() != null && !ratingStorage.isContainsId(film.getMpa().getId())) {
+        if (film.getMpa() != null && !ratingStorage.contains(film.getMpa().getId())) {
             log.warn("Не существует рейтинга с id {}", film.getMpa());
             throw new ValidationException("Не существует рейтинга с id " + film.getMpa());
         }

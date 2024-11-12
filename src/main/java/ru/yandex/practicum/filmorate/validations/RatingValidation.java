@@ -13,7 +13,7 @@ public class RatingValidation {
     RatingStorage ratingStorage;
 
     public void validateRatingId(Long id) {
-        if (!ratingStorage.isContainsId(id)) {
+        if (!ratingStorage.contains(id)) {
             log.warn("Не существует рейтинга с id {}", id);
             throw new NotFoundException("Не существует рейтинга с id " + id);
         }

@@ -13,7 +13,7 @@ public class GenreValidation {
     GenreStorage genreStorage;
 
     public void validateGenreId(Long id) {
-        if (!genreStorage.isContainsId(id)) {
+        if (!genreStorage.contains(id)) {
             log.warn("Не существует жанра с id {}", id);
             throw new NotFoundException("Не существует жанра с id " + id);
         }

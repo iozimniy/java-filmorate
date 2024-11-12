@@ -44,6 +44,6 @@ public class RatingRepositoryTests {
 
     @Test
     public void isContainsRatingIdTest() {
-        assertTrue(ratingRepository.isContainsId(FIRST_RATING_ID_IN_DATA));
+        assertTrue(ratingRepository.contains(FIRST_RATING_ID_IN_DATA));
     }
 }

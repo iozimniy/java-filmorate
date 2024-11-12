@@ -11,7 +11,7 @@ public interface GenreStorage {
 
     Optional<Genre> getById(Long id);
 
-    boolean isContainsId(Long id);
+    boolean contains(Long id);
 
     Collection<Genre> getGenresById(List<Long> ids);
 }

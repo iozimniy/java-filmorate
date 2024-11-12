@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 import ru.yandex.practicum.filmorate.dal.FilmLikesRepository;
 import ru.yandex.practicum.filmorate.model.Film;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -29,14 +30,14 @@ public class FilmLikesRepositoryTests {
     FilmLikesRepository filmLikesRepository;
 
     @Test
-    public void addLikesTest() {
+    public void addLikesTest() throws SQLException {
         filmLikesRepository.addLikes(FIRST_FILM_WITH_TWO_LIKES_ID, USER_FOR_ADD_LIKE_ID);
         assertSame(COUNT_LIKES_OF_FIRST_FILM + 1,
                 filmLikesRepository.getCountFilmLikes(FIRST_FILM_WITH_TWO_LIKES_ID));
     }
 
     @Test
-    public void deleteLikeTest() {
+    public void deleteLikeTest() throws SQLException {
         filmLikesRepository.deleteLike(FIRST_FILM_WITH_TWO_LIKES_ID, USER_FOR_DELETE_LIKE_ID);
         assertSame(COUNT_LIKES_OF_FIRST_FILM - 1,
                 filmLikesRepository.getCountFilmLikes(FIRST_FILM_WITH_TWO_LIKES_ID));

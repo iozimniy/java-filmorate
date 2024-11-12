@@ -30,7 +30,7 @@ public class GenreRepository extends BaseRepository<Genre> implements GenreStora
         return findOne(FIND_GENRE_BY_ID, id);
     }
 
-    public boolean isContainsId(Long id) {
+    public boolean contains(Long id) {
         Optional<Genre> genre = findOne(FIND_GENRE_BY_ID, id);
         return genre.isPresent();
     }

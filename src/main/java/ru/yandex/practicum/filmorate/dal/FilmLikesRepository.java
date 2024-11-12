@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmLikesStorage;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 @Repository
@@ -24,7 +25,7 @@ public class FilmLikesRepository extends BaseRepository<Film> implements FilmLik
     }
 
     @Override
-    public void addLikes(Long filmId, Long userId) {
+    public void addLikes(Long filmId, Long userId) throws SQLException {
         Integer result = jdbc.update(
                 CREATE_FILM_LIKE,
                 filmId,
@@ -33,12 +34,12 @@ public class FilmLikesRepository extends BaseRepository<Film> implements FilmLik
 
         if (result == 0) {
             log.error("Не удалось добавить лайк фильму с id {} от пользователя с iв {}", filmId, userId);
-            throw new InternalServerException("Не удалось сохранить данные");
+            throw new SQLException("Не удалось сохранить данные");
         }
     }
 
     @Override
-    public void deleteLike(Long filmId, Long userId) {
+    public void deleteLike(Long filmId, Long userId) throws SQLException {
         Integer result = jdbc.update(
                 DELETE_FILM_LIKE,
                 filmId,
@@ -47,7 +48,7 @@ public class FilmLikesRepository extends BaseRepository<Film> implements FilmLik
 
         if (result == 0) {
             log.error("Не удалось удалить лайк у фильма с id {} от пользователя с id {}", filmId, userId);
-            throw new InternalServerException("Не удалось удалить данные");
+            throw new SQLException("Не удалось удалить данные");
         }
     }
 

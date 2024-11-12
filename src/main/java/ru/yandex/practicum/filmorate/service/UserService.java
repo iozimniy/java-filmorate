@@ -3,12 +3,14 @@ package ru.yandex.practicum.filmorate.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FriendshipStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 import ru.yandex.practicum.filmorate.validations.UserValidation;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 @Service
@@ -31,9 +33,14 @@ public class UserService {
     public User create(User user) {
         userValidation.validateForCreate(user);
 
-        User newUser = userStorage.create(user);
-        log.info("Создан новый пользователь: {}", newUser);
-        return newUser;
+        try {
+            User newUser = userStorage.create(user);
+            log.info("Создан новый пользователь: {}", newUser);
+            return newUser;
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
     }
 
     public User update(User user) {
@@ -63,7 +70,12 @@ public class UserService {
         }
 
         log.info("Пользователь изменён: {}", user);
-        return userStorage.update(user);
+        try {
+            return userStorage.update(user);
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
     }
 
     public void addFriend(Long userId, Long friendId) {
@@ -74,7 +86,12 @@ public class UserService {
             return;
         }
 
-        friendshipStorage.addFriend(userId, friendId);
+        try {
+            friendshipStorage.addFriend(userId, friendId);
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
         log.info("Пользователь {} добавлен в список друзей пользователя {}", friendId, userId);
 
         //addFriend(friendId, userId);
@@ -88,7 +105,12 @@ public class UserService {
             return;
         }
 
-        friendshipStorage.deleteFriend(userId, friendId);
+        try {
+            friendshipStorage.deleteFriend(userId, friendId);
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
         log.info("Пользователь {} удалён из друзей пользователя {}", friendId, userId);
 
         //deleteFriend(friendId, userId);

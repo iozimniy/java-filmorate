@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.dto.NewFilmRequest;
+import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.mapper.FilmMapper;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -13,6 +14,7 @@ import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.RatingStorage;
 import ru.yandex.practicum.filmorate.validations.FilmValidation;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 @Service
@@ -43,13 +45,27 @@ public class FilmService {
         filmValidation.validateForCreate(request);
         Film newFilm = filmMapper.mapToFilm(request);
 
-        Film film = filmStorage.create(newFilm);
-        log.info("Новый фильм добавлен: {}", newFilm);
+        try {
+           Film film = filmStorage.create(newFilm);
+            log.info("Новый фильм добавлен: {}", newFilm);
 
-        if (film.getGenres() != null) {
-            film.getGenres().stream().forEach(genre -> filmGenreStorage.create(film.getId(), genre.getId()));
+            if (film.getGenres() != null) {
+                film.getGenres().stream().forEach(genre -> {
+                    try {
+                        filmGenreStorage.create(film.getId(), genre.getId());
+                    } catch (SQLException e) {
+                        log.info("Ошибка обращения к DB: {}", e.getMessage());
+                        throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+                    }
+                });
+            }
+
+            return film;
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
         }
-        return film;
+
     }
 
     public Film update(Film film) {
@@ -87,21 +103,36 @@ public class FilmService {
         }
 
         log.info("Фильм изменён: {}", film);
-        return filmStorage.update(film);
+        try {
+            return filmStorage.update(film);
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
     }
 
     public void likeFilm(Long filmId, Long userId) {
         validateFilmId(filmId);
         userService.validateUserId(userId);
 
-        filmLikesStorage.addLikes(filmId, userId);
+        try {
+            filmLikesStorage.addLikes(filmId, userId);
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
     }
 
     public void deleteLike(Long filmId, Long userId) {
         validateFilmId(filmId);
         userService.validateUserId(userId);
 
-        filmLikesStorage.deleteLike(filmId, userId);
+        try {
+            filmLikesStorage.deleteLike(filmId, userId);
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
     }
 
     public Collection<Film> getPopularFilms(Integer count) {

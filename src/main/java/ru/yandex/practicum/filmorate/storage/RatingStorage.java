@@ -10,5 +10,5 @@ public interface RatingStorage {
 
     Optional<Rating> getById(Long id);
 
-    boolean isContainsId(Long id);
+    boolean contains(Long id);
 }
