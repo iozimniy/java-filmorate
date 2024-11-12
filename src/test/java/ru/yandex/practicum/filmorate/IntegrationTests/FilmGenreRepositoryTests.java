@@ -29,7 +29,7 @@ public class FilmGenreRepositoryTests {
     private static final Long SECOND_GENRE_ID_TO_ADD = 6L;
     private static final List<FilmGenre> LIST_TO_CREATE = List.of(
             new FilmGenre(FILM_WITH_GENRES, FIST_GENRE_ID_TO_ADD),
-            new FilmGenre(FILM_WITH_GENRES,SECOND_GENRE_ID_TO_ADD )
+            new FilmGenre(FILM_WITH_GENRES,SECOND_GENRE_ID_TO_ADD)
     );
     @Autowired
     FilmGenreRepository filmGenreRepository;
