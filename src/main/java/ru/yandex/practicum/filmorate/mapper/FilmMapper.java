@@ -36,10 +36,9 @@ public final class FilmMapper {
 
         //проверяем, если ли в запросе жанры, и если есть, прикручиваем к фильму
         if (request.getGenres() != null) {
-            Collection<Genre> genreList = request.getGenres().stream()
-                    .map(obj -> genreStorage.getById(obj.getId()).get())
-                    .collect(Collectors.toList());
-            film.setGenres(genreList);
+            Collection<Genre> genresList = genreStorage.getGenresById(request.getGenres().stream()
+                    .map(genre -> genre.getId()).collect(Collectors.toList()));
+            film.setGenres(genresList);
         }
 
         log.info("Запрос на добавление фильма прошёл стадию обработки: {}", film);
