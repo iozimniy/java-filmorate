@@ -19,8 +19,8 @@ public class FilmGenreService {
 
     public void create(Film film) {
         try {
-            filmGenreStorage.create(film.getGenres().stream().
-                    map(genre -> new FilmGenre(film.getId(), genre.getId()))
+            filmGenreStorage.create(film.getGenres().stream()
+                    .map(genre -> new FilmGenre(film.getId(), genre.getId()))
                     .collect(Collectors.toList())
             );
         } catch (SQLException e) {
