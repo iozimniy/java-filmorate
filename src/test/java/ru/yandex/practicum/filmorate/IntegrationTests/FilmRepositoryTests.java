@@ -12,6 +12,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Rating;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -41,7 +42,7 @@ public class FilmRepositoryTests {
     }
 
     @Test
-    public void createFilmTest() {
+    public void createFilmTest() throws SQLException {
         Film film = new Film(null, "Новый фильм", "Описание нового фильма",
                 new Rating(2L, "PG"), LocalDate.of(2017, 02, 19),
                 60, List.of(new Genre(1L, "Комедия")));
@@ -52,7 +53,7 @@ public class FilmRepositoryTests {
     }
 
     @Test
-    public void updateFilmTest() {
+    public void updateFilmTest() throws SQLException {
         Film film = new Film(LAST_FILM_ID_IN_DATA, "Изменённый фильм фильм", "Описание изменённого фильма",
                 new Rating(4L, "R"), LocalDate.of(2010, 11, 15),
                 60, List.of(new Genre(6L, "Боевик")));

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 import ru.yandex.practicum.filmorate.dal.UserRepository;
 import ru.yandex.practicum.filmorate.model.User;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void createUserTest() {
+    public void createUserTest() throws SQLException {
         User user = new User(null, "test3@test.com", "uses3", "Пользователь 3",
                 LocalDate.of(2000, 12, 30));
 
@@ -46,7 +47,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void updateUserTest() {
+    public void updateUserTest() throws SQLException {
         User user = new User(LAST_USER_ID_IN_DATA, "change@test.com", "changeUser", "Изменённый пользователь",
                 LocalDate.of(1995, 5, 12));
         User changeUser = userRepository.update(user);
