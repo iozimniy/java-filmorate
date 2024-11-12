@@ -11,6 +11,7 @@ import ru.yandex.practicum.filmorate.dal.GenreRepository;
 import ru.yandex.practicum.filmorate.model.Genre;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -25,6 +26,7 @@ public class GenreRepositoryTests {
 
     private static final Long FIRST_GENRE_ID_IN_DATA = 1L;
     private static final Integer COUNT_GENRE_IN_DATA = 6;
+    private static final List<Long> LIST_IDS = List.of(1L, 2L, 3L);
     @Autowired
     GenreRepository genreRepository;
 
@@ -45,5 +47,11 @@ public class GenreRepositoryTests {
     @Test
     public void isContainsRatingIdTest() {
         assertTrue(genreRepository.contains(FIRST_GENRE_ID_IN_DATA));
+    }
+
+    @Test
+    public void getGenresByIdTest() {
+        Collection<Genre> genres = genreRepository.getGenresById(LIST_IDS);
+        assertSame(LIST_IDS.size(), genres.size());
     }
 }
