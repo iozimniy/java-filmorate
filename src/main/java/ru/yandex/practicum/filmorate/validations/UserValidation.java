@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.validations;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -8,8 +9,9 @@ import ru.yandex.practicum.filmorate.model.User;
 import java.time.LocalDate;
 
 @Slf4j
+@Component
 public class UserValidation {
-    public static void validateForCreate(User user) throws ValidationException {
+    public void validateForCreate(User user) throws ValidationException {
         if (!(StringUtils.hasText(user.getEmail()))) {
             log.warn("Некорректный адрес элекронной почты");
             throw new ValidationException("Некорректный адрес элекронной почты");
@@ -30,7 +32,7 @@ public class UserValidation {
         }
     }
 
-    public static void validateForUpdate(User user) {
+    public void validateForUpdate(User user) {
         if (user.getId() == null) {
             log.warn("Не указан пользователь для изменения");
             throw new ValidationException("Не указан пользователь для изменения");

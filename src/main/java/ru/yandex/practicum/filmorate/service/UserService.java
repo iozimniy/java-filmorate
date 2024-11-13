@@ -1,22 +1,25 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exceptions.InternalServerException;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
+import ru.yandex.practicum.filmorate.storage.FriendshipStorage;
+import ru.yandex.practicum.filmorate.storage.UserStorage;
 import ru.yandex.practicum.filmorate.validations.UserValidation;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class UserService {
     UserStorage userStorage;
-
-    public UserService(UserStorage userStorage) {
-        this.userStorage = userStorage;
-    }
+    FriendshipStorage friendshipStorage;
+    UserValidation userValidation;
 
     public Collection<User> getUsers() {
         return userStorage.getUsers();
@@ -24,25 +27,31 @@ public class UserService {
 
     public User getUser(Long userId) {
         validateUserId(userId);
-        return userStorage.getUserById(userId);
+        return userStorage.getUserById(userId).get();
     }
 
     public User create(User user) {
-        UserValidation.validateForCreate(user);
+        userValidation.validateForCreate(user);
 
-        log.info("Создан новый пользователь: {}", user);
-        return userStorage.create(user);
+        try {
+            User newUser = userStorage.create(user);
+            log.info("Создан новый пользователь: {}", newUser);
+            return newUser;
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
     }
 
     public User update(User user) {
-        UserValidation.validateForUpdate(user);
+        userValidation.validateForUpdate(user);
 
         if (!(userStorage.contains(user.getId()))) {
             log.warn("Не найден пользователь с id {}", user.getId());
             throw new NotFoundException("Не найден пользователь с id " + user.getId());
         }
 
-        User oldUser = userStorage.getUserById(user.getId());
+        User oldUser = userStorage.getUserById(user.getId()).get();
 
         if (user.getEmail() == null) {
             user.setEmail(oldUser.getEmail());
@@ -61,51 +70,62 @@ public class UserService {
         }
 
         log.info("Пользователь изменён: {}", user);
-        return userStorage.update(user);
+        try {
+            return userStorage.update(user);
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
     }
 
     public void addFriend(Long userId, Long friendId) {
         validateUserId(userId);
         validateUserId(friendId);
 
-        User user = userStorage.getUserById(userId);
-
-        if (user.getFriends().contains(friendId)) {
+        if (friendshipStorage.getIdFriends(userId).contains(friendId)) {
             return;
         }
 
-        user.getFriends().add(friendId);
+        try {
+            friendshipStorage.addFriend(userId, friendId);
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
         log.info("Пользователь {} добавлен в список друзей пользователя {}", friendId, userId);
 
-        addFriend(friendId, userId);
+        //addFriend(friendId, userId);
     }
 
     public void deleteFriend(Long userId, Long friendId) {
         validateUserId(userId);
         validateUserId(friendId);
 
-        User user = userStorage.getUserById(userId);
-
-        if (!user.getFriends().contains(friendId)) {
+        if (!friendshipStorage.getIdFriends(userId).contains(friendId)) {
             return;
         }
 
-        user.getFriends().remove(friendId);
+        try {
+            friendshipStorage.deleteFriend(userId, friendId);
+        } catch (SQLException e) {
+            log.info("Ошибка обращения к DB: {}", e.getMessage());
+            throw new InternalServerException("Что-то пошло нет. Повторите запрос позже.");
+        }
         log.info("Пользователь {} удалён из друзей пользователя {}", friendId, userId);
 
-        deleteFriend(friendId, userId);
+        //deleteFriend(friendId, userId);
     }
 
     public Collection<User> getFriends(Long userId) {
         validateUserId(userId);
-        return userStorage.getUserFriends(userId);
+        return friendshipStorage.getFriends(userId);
     }
 
     public Collection<User> getCommonFriends(Long userId, Long otherUserId) {
         validateUserId(userId);
         validateUserId(otherUserId);
 
-        return userStorage.getCommonFriends(userId, otherUserId);
+        return friendshipStorage.getCommonFriends(userId, otherUserId);
     }
 
     //вспомогательные методы
